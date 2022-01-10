@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,21 @@ namespace GreenLifeLib
     {
         public int Id { get; set; }
         public int Score { get; set; }
+        public string HabitName { get; set; }
 
-        public Phrase Phrase { get; set; }
+        public HabitPhrase HabitPhrase { get; set; }
+        public int TypeId { get; set; }
         public HabitType HabitType { get; set; }
-        public List<CheckList> CheckList { get; set; }
+        public int CheckListId { get; set; }
+        public List<CheckListHabits> CheckListHabits { get; set; }
+
+        public static List<Habit> GetHabitsOfCheckList(int id)
+        {
+            using (ApplicationContext db = new())
+            {
+                var _habits = db.Habit.Include(p => p.CheckListHabits).Where(p => p.CheckListId == id).ToList();
+                return _habits;
+            }
+        }
     }
 }

@@ -11,6 +11,18 @@ namespace GreenLifeLib
         public int Id { get; set; }
         public string AdviceText { get; set; }
 
-        public List<StartPage> StartPage;
+        public List<PageAdvice> PageAdvice { get; set; }
+
+        public static Advice GetRandomAdvice()
+        {
+            using (ApplicationContext db = new())
+            {
+                var _advices = db.Advice.ToList();
+                int _containing = _advices.Count;
+                Random _rnd = new(_containing);
+                int _num = _rnd.Next();
+                return _advices[_num];
+            }
+        }
     }
 }

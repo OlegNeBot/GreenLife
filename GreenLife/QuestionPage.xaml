@@ -1,0 +1,41 @@
+﻿<Page x:Class="GreenLife.QuestionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GreenLife"
+      mc:Ignorable="d" 
+      MinHeight="500" MaxHeight="500" MinWidth="400" MaxWidth="400"
+        Title="Анкета" Height="500" Width="400">
+
+    <Grid x:Name="mainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="57*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label x:Name="QuestionLabel" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="6"  FontSize="20" FontFamily="Segoe UI"
+                Padding="0 30 0 0" FontWeight="Black" HorizontalContentAlignment="Center"></Label>
+        <TextBlock x:Name="QuestionBlock" Grid.Row="3" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="6"
+                   Padding="0 30 0 0" HorizontalAlignment="Center"></TextBlock>
+        
+    </Grid>
+</Page>

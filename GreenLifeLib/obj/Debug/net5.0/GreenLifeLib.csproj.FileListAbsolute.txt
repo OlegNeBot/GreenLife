@@ -10,3 +10,11 @@ C:\Users\taria\Desktop\Папка Олега\Green Life курсач\GreenLife\G
 C:\Users\taria\Desktop\Папка Олега\Green Life курсач\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.dll
 C:\Users\taria\Desktop\Папка Олега\Green Life курсач\GreenLife\GreenLifeLib\obj\Debug\net5.0\ref\GreenLifeLib.dll
 C:\Users\taria\Desktop\Папка Олега\Green Life курсач\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.pdb
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.csprojAssemblyReference.cache
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.AssemblyInfoInputs.cache
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.AssemblyInfo.cs
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.csproj.CoreCompileInputs.cache
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.dll
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\ref\GreenLifeLib.dll
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.pdb

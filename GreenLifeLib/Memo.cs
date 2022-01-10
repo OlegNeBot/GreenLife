@@ -11,5 +11,14 @@ namespace GreenLifeLib
         public int Id { get; set; }
         public string MemoName { get; set; }
         public string MemoRef { get; set; }
+
+        public static List<Memo> GetMemos()
+        {
+            using (ApplicationContext db = new())
+            {
+                var _memos = db.Memo.ToList();
+                return _memos;
+            }
+        }
     }
 }

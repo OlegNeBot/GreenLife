@@ -11,6 +11,16 @@ namespace GreenLifeLib
         public int Id { get; set; }
         public string PhraseText { get; set; }
 
-        public List<Habit> Habit;
+        public int HabitId { get; set; }
+        public List<HabitPhrase> HabitPhrase { get; set; }
+
+        public static Phrase GetPhrase(int id)
+        {
+            using (ApplicationContext db = new())
+            {
+                var _phrase = db.Phrase.Where(p => p.HabitId == id).First();
+                return _phrase;
+            }
+        }
     }
 }

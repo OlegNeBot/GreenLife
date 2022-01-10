@@ -11,6 +11,18 @@ namespace GreenLifeLib
         public int Id { get; set; }
         public string PhraseText { get; set; }
 
-        public List<StartPage> StartPage { get; set; }
+        public List<PagePhrase> PagePhrase { get; set; }
+
+        public static string GetRandomPhrase()
+        {
+            using (ApplicationContext db = new())
+            {
+                var _phrases = db.DayPhrase.ToList();
+                int _containing = _phrases.Count;
+                Random _rnd = new(_containing);
+                int _num = _rnd.Next();
+                return _phrases[_num].PhraseText;
+            }
+        }
     }
 }

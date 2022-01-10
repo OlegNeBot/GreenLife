@@ -11,8 +11,18 @@ namespace GreenLifeLib
         public int Id { get; set; }
         public string PlanetRef { get; set; }
 
+        public int StartPageId { get; set; }
         public StartPage StartPage { get; set; }
-        public List<Colors> Colors { get; set; }
-        public PlanetElem PlanetElem { get; set; }
+        public PlanetColors PlanetColors { get; set; }
+        public PlanetElement PlanetElement { get; set; }
+
+        public static Planet GetPlanet(int id)
+        {
+            using (ApplicationContext db = new())
+            {
+                var _planet = db.Planet.Where(p => p.StartPageId == id).First();
+                return _planet;
+            }
+        }
     }
 }
