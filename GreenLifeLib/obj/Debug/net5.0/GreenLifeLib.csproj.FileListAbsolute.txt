@@ -18,3 +18,11 @@ C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.cspr
 C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.dll
 C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\ref\GreenLifeLib.dll
 C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.pdb
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\bin\Debug\net5.0\appsettings.json
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\bin\Debug\net5.0\GreenLifeLib.deps.json
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\bin\Debug\net5.0\GreenLifeLib.runtimeconfig.json
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\bin\Debug\net5.0\GreenLifeLib.runtimeconfig.dev.json
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\bin\Debug\net5.0\GreenLifeLib.dll
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\bin\Debug\net5.0\ref\GreenLifeLib.dll
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\bin\Debug\net5.0\GreenLifeLib.pdb
+C:\Users\taria\Desktop\GreenLife\GreenLifeLib\obj\Debug\net5.0\GreenLifeLib.genruntimeconfig.cache

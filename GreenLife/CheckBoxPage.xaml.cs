@@ -5,10 +5,12 @@ using GreenLifeLib;
 namespace GreenLife
 {
     /// <summary>
-    /// Логика взаимодействия для CheckBoxPage.xaml
+    /// Чек-листы
     /// </summary>
     public partial class CheckBoxPage : Page
     {
+        #region [Constructors]
+
         public CheckBoxPage(Account acc)
         {
             InitializeComponent();
@@ -26,6 +28,10 @@ namespace GreenLife
             InitializeComponent();
         }
 
+        #endregion
+
+        #region [Buttons]
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button pressed = (Button)sender;
@@ -37,5 +43,7 @@ namespace GreenLife
         { 
             //Redirect to main
         }
+
+        #endregion
     }
 }

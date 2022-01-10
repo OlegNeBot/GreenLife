@@ -15,7 +15,6 @@ namespace GreenLifeLib
         public Account Account { get; set; }
         public List<CheckList> CheckList { get; set; }
         public Role Role { get; set; }
-        public UserMemo UserMemo { get; set; }
         public List<HabitPerformance> HabitPerformance { get; set; }
 
         public void UserStats() 

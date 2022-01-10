@@ -17,10 +17,12 @@ using GreenLifeLib;
 namespace GreenLife
 {
     /// <summary>
-    /// Логика взаимодействия для HabitsPage.xaml
+    /// Страница с привычками
     /// </summary>
     public partial class HabitsPage : Page
     {
+        #region [Constructors]
+
         public HabitsPage()
         {
             InitializeComponent();
@@ -51,6 +53,10 @@ namespace GreenLife
             }
         }
 
+        #endregion
+
+        #region [Buttons]
+
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
             //redirect to main
@@ -63,5 +69,7 @@ namespace GreenLife
            //TODO: If result of the message box is "yes"
            //NewExecution()
         }
+
+        #endregion
     }
 }

@@ -17,11 +17,18 @@ using GreenLifeLib;
 namespace GreenLife
 {
     /// <summary>
-    /// Логика взаимодействия для SettingsPage.xaml
+    /// Настройки в приложении
     /// </summary>
     public partial class SettingsPage : Page
     {
+        #region [Fields]
+
         bool _isLogged;
+
+        #endregion
+
+        #region [Constructors]
+
         public SettingsPage(Account acc)
         {
             LogoutBtn.Background = new SolidColorBrush(Colors.White);
@@ -44,6 +51,10 @@ namespace GreenLife
             _isLogged = false;
         }
 
+        #endregion
+
+        #region [Buttons]
+
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
             //Redirect to main
@@ -60,5 +71,7 @@ namespace GreenLife
                 //Redirect to login
             }
         }
+
+        #endregion
     }
 }

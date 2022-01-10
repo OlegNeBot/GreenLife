@@ -11,7 +11,6 @@ namespace GreenLifeLib
         public int Id { get; set; }
 
         public List<Advice> Advice { get; set; }
-        public int PageId { get; set; }
         public StartPage StartPage { get; set; }
 
         public static PageAdvice GetRandomPageAdvice()

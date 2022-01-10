@@ -16,11 +16,18 @@ using GreenLifeLib;
 namespace GreenLife
 {
     /// <summary>
-    /// Логика взаимодействия для Authorise.xaml
+    /// Вход в приложение
     /// </summary>
     public partial class Authorise : Window
     {
+        #region [Fields]
+
         public Account _account = null;
+
+        #endregion
+
+        #region [Constructors]
+
         public Authorise()
         {
             //TODO: Сделать возможность сохранения данных пользователя
@@ -28,6 +35,10 @@ namespace GreenLife
             //Если залогинился или зарегался - менять на статус "Logged"
             InitializeComponent();
         }
+
+        #endregion
+
+        #region [Buttons]
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
@@ -57,5 +68,7 @@ namespace GreenLife
         {
             //TODO: Redirect to MainWindow
         }
+
+        #endregion
     }
 }

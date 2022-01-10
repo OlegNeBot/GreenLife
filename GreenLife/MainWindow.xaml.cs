@@ -17,11 +17,18 @@ using GreenLifeLib;
 namespace GreenLife
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Главная страница
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region [Fields]
+
         private Account account = null;
+
+        #endregion
+
+        #region [Constructors]
+
         public MainWindow(Account acc)
         {
             InitializeComponent();
@@ -37,6 +44,11 @@ namespace GreenLife
 
             DayPhraseBlock.Text = DayPhrase.GetRandomPhrase();
         }
+
+        #endregion
+
+        #region [Buttons]
+
         //TODO: Do Redirect in methods
         private void CheckListBtn_Click(object sender, RoutedEventArgs e)
         { 
@@ -67,5 +79,7 @@ namespace GreenLife
         {
             
         }
+
+        #endregion
     }
 }

@@ -6,12 +6,19 @@ using GreenLifeLib;
 namespace GreenLife
 {
     /// <summary>
-    /// Логика взаимодействия для QuestionPage.xaml
+    /// Анкета
     /// </summary>
     public partial class QuestionPage : Page
     {
+        #region [Fields]
+
         public Question _question;
         public Answer _answer;
+
+        #endregion
+
+        #region [Constructors]
+
         public QuestionPage(Account acc)
         {
             InitializeComponent();
@@ -48,6 +55,10 @@ namespace GreenLife
             InitializeComponent();
         }
 
+        #endregion
+
+        #region [Buttons]
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             RadioButton pressed = (RadioButton)sender;
@@ -56,5 +67,7 @@ namespace GreenLife
             UserAnswer.AddUserAnswer(_userAnswer);
             //TODO: Continue the cycle
         }
+
+        #endregion
     }
 }

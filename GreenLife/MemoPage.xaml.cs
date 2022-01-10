@@ -17,10 +17,12 @@ using GreenLifeLib;
 namespace GreenLife
 {
     /// <summary>
-    /// Логика взаимодействия для MemoPage.xaml
+    /// Памятки
     /// </summary>
     public partial class MemoPage : Page
     {
+        #region [Constructors]
+
         public MemoPage()
         {
             InitializeComponent();
@@ -34,6 +36,10 @@ namespace GreenLife
             }
         }
 
+        #endregion
+
+        #region [Buttons]
+
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         { 
             //Redirect to main
@@ -43,5 +49,7 @@ namespace GreenLife
         { 
             //TODO: Open a png-image with it
         }
+
+        #endregion
     }
 }

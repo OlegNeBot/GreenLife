@@ -20,9 +20,9 @@ namespace GreenLifeLib
         public string FamilyName { get; private set; }
         public enum Sex
         {
-            Male,
-            Female,
-            Other
+            Мужской,
+            Женский,
+            Другой
         }
         public Sex UserSex { get; private set; }
         public DateTime DateOfBirth { get; private set; }
@@ -33,15 +33,14 @@ namespace GreenLifeLib
 
         public Account() { }
 
-        public Account(int id, string login, string password, string name, string fname, Sex sex, DateTime dOB, DateTime reg) 
+        public Account(string login, string password, string name, string fname, string sex, DateTime? dOB, DateTime reg) 
         {
-            Id = id;
             Login = login;
             Password = password;
             Name = name;
             FamilyName = fname;
-            UserSex = sex;
-            DateOfBirth = dOB;
+            UserSex = ToSex(sex);
+            DateOfBirth = (DateTime)dOB;
             RegDate = reg;
         }
 
@@ -64,6 +63,29 @@ namespace GreenLifeLib
                     _builder.Append(_computed[i].ToString("x2"));
                 return _builder.ToString();
             }
+        }
+
+        public static bool IsLoginAvailable(string login)
+        {
+            using (ApplicationContext db = new())
+            {
+                var _accounts = db.Account;
+                foreach (Account _acc in _accounts)
+                {
+                    if (_acc.Login.ToLower().Equals(login.ToLower()))
+                        return false;
+                }
+                return true;
+            }
+        }
+
+        private static Sex ToSex(string sex)
+        {
+            if (sex.Equals(Sex.Мужской))
+                return Sex.Мужской;
+            else if (sex.Equals(Sex.Женский))
+                return Sex.Женский;
+            else return Sex.Другой;
         }
     }
 }

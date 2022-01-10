@@ -11,11 +11,16 @@ namespace GreenLifeLib
 {
     public class ApplicationContext : DbContext
     {
-       // public ApplicationContext() { }
+        #region [Constructors]
+        public ApplicationContext() { }
+
+        //public ApplicationContext() => Database.EnsureCreated();
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options) { }
+        #endregion
 
+        #region [DbSets]
         public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<Advice> Advice { get; set; }
         public virtual DbSet<Answer> Answer { get; set; }
@@ -41,8 +46,8 @@ namespace GreenLifeLib
         public virtual DbSet<StartPage> StartPage { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserAnswer> UserAnswer { get; set; }
+        #endregion
 
-        public ApplicationContext() => Database.EnsureCreated();
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -86,6 +91,7 @@ namespace GreenLifeLib
                     //TODO: Add DataType "sex" to DB
                     entity.Property(e => e.UserSex)
                     .IsRequired()
+                    .HasColumnType("text")
                     .HasColumnName("sex");
 
                     entity.Property(e => e.DateOfBirth)
@@ -95,7 +101,7 @@ namespace GreenLifeLib
 
                     entity.Property(e => e.RegDate)
                     .IsRequired()
-                    .HasColumnType("timestamp with timezone")
+                    .HasColumnType("timestamptz")
                     .HasColumnName("reg_date");
                 });
 
@@ -223,7 +229,7 @@ namespace GreenLifeLib
 
                 entity.Property(e => e.DateOfExec)
                 .IsRequired()
-                .HasColumnType("timestamp with timezone")
+                .HasColumnType("timestamptz")
                 .HasColumnName("date_of_exec");
 
                 entity.HasOne(p => p.User)
@@ -442,7 +448,7 @@ namespace GreenLifeLib
 
                 entity.HasOne(p => p.Planet)
                 .WithOne(d => d.PlanetElement)
-                .HasForeignKey<StartPage>(d => d.Id)
+                .HasForeignKey<Planet>(d => d.Id)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("plel_el_fk");
 
@@ -459,7 +465,7 @@ namespace GreenLifeLib
 
                 entity.HasOne(p => p.Habit)
                 .WithOne(d => d.HabitPhrase)
-                .HasForeignKey<StartPage>(d => d.Id)
+                .HasForeignKey<Habit>(d => d.Id)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("haph_ha_fk");
 
@@ -484,12 +490,7 @@ namespace GreenLifeLib
                 .WithMany(d => d.CheckListHabits);
             });
 
-            OnModelCreatingPartial(modelBuilder);
         }
-
-        private void OnModelCreatingPartial(ModelBuilder modelBuilder)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

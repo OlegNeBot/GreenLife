@@ -64,8 +64,13 @@
         </ComboBox>
         <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6" FontSize="18" FontFamily="Arial"
                    HorizontalAlignment="Center" Margin="0, 10, 15, 0">Ваша дата рождения</TextBlock>
-        <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="5" FontSize="13" FontFamily="Arial"
-                    Margin="5, 5, 5, 5" />
+        <DatePicker x:Name="DOBPicker" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="5" FontSize="13" FontFamily="Arial"
+                    Margin="5, 5, 5, 5" IsDropDownOpen="False" SelectedDateFormat="Short" 
+                    SelectedDateChanged="DOBPicker_Changed">
+            <DatePicker.BlackoutDates>
+                <CalendarDateRange Start="1/1/1900"></CalendarDateRange>
+            </DatePicker.BlackoutDates>
+        </DatePicker>
         <TextBlock Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="5" FontSize="18" FontFamily="Arial"
                    HorizontalAlignment="Center" Margin="0, 10, 10, 0">Введите логин</TextBlock>
         <TextBox x:Name="RegLoginBox" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="5" Padding="5 0 0 0" FontSize="18" BorderThickness="2" Margin="5, 5, 5, 5"></TextBox>

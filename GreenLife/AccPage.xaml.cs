@@ -17,10 +17,12 @@ using GreenLifeLib;
 namespace GreenLife
 {
     /// <summary>
-    /// Логика взаимодействия для AccPage.xaml
+    /// Страница аккаунта пользователя
     /// </summary>
     public partial class AccPage : Page
     {
+        #region [Constructors]
+
         public AccPage(Account acc)
         {
             InitializeComponent();
@@ -35,9 +37,15 @@ namespace GreenLife
             InitializeComponent();
         }
 
+        #endregion
+
+        #region [Methods]
+
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
             //TODO: Redirect to Main
         }
+
+        #endregion
     }
 }
