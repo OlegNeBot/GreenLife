@@ -31,13 +31,18 @@ namespace GreenLife
         private string _password;
         private string _confPass;
         private DateTime _regDate;
+
+        private LoginWindow _lw;
+
         #endregion
 
         #region [Constructors]
 
-        public RegPage()
+        public RegPage(LoginWindow lw)
         {
             InitializeComponent();
+
+            _lw = lw;
         }
 
         #endregion
@@ -62,9 +67,21 @@ namespace GreenLife
                 //Tell to the user about wrong password (Same)
             }
             _regDate = DateTime.Now;
+
             Account account = new(_login, _password, _name, _fname, _sex, _dOB, _regDate);
             Account.AddAccount(account);
-            //TODO: Redirect to Questions
+
+            MessageBoxResult result = MessageBox.Show("Вы хотите пройти анкету, чтобы персонализировать чек-листы?", "Анкета", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (result == MessageBoxResult.Yes)
+            {
+                _lw.PagesShow.Navigate(new QuestionPage());
+            }
+            else 
+            {
+                MainWindow mainWindow = new(account);
+                mainWindow.Show();
+                _lw.Close();
+            }
         }
 
         private void RegSexBox_Selected(object sender, RoutedEventArgs e)

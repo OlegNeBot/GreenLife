@@ -23,13 +23,14 @@ namespace GreenLife
     {
         #region [Fields]
 
-        bool _isLogged;
+        private bool _isLogged;
+        private readonly Button _btn;
 
         #endregion
 
         #region [Constructors]
 
-        public SettingsPage(Account acc)
+        public SettingsPage(Account acc, Button btn)
         {
             LogoutBtn.Background = new SolidColorBrush(Colors.White);
             LogoutBtn.Foreground = new SolidColorBrush(Colors.Red);
@@ -37,16 +38,22 @@ namespace GreenLife
 
             InitializeComponent();
 
+            _btn = btn;
+            Unloaded += SettingsPage_Unloaded;
+
             _isLogged = true;
         }
 
-        public SettingsPage()
-        {
-            LogoutBtn.Background = new SolidColorBrush(Colors.AliceBlue);
-            LogoutBtn.Foreground = new SolidColorBrush(Colors.White);
-            LogoutBtn.Content = "Зарегистрироваться";
+        public SettingsPage(Button btn)
+        {   //TODO: Rework the NullReferenceException
+            /* LogoutBtn.Background = new SolidColorBrush(Colors.AliceBlue);
+            LogoutBtn.Foreground = new SolidColorBrush(Colors.White); 
+            LogoutBtn.Content = "Зарегистрироваться"; */
 
             InitializeComponent();
+
+            _btn = btn;
+            Unloaded += SettingsPage_Unloaded;
 
             _isLogged = false;
         }
@@ -70,6 +77,15 @@ namespace GreenLife
             {
                 //Redirect to login
             }
+        }
+
+        #endregion
+
+        #region [Methods]
+
+        private void SettingsPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _btn.IsEnabled = true;
         }
 
         #endregion

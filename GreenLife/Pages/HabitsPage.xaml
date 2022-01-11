@@ -9,9 +9,6 @@
         Title="Привычки" Height="500" Width="400">
 
     <Grid>
-        <Button x:Name="ReturnBtn" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ReturnBtn_Click">
-            <Image Source="return.jpg"/>
-        </Button>
         <ScrollViewer>
             <StackPanel x:Name="MainStack">
                 

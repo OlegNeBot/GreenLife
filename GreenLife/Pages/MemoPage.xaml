@@ -1,4 +1,4 @@
-﻿<Page x:Class="GreenLife.CheckBoxPage"
+﻿<Page x:Class="GreenLife.MemoPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,14 +6,13 @@
       xmlns:local="clr-namespace:GreenLife"
       mc:Ignorable="d" 
       MinHeight="500" MaxHeight="500" MinWidth="400" MaxWidth="400"
-        Title="Чеклисты" Height="500" Width="400">
+        Title="Памятки" Height="500" Width="400">
 
-    <Grid x:Name="MainGrid">
-        <Button x:Name="ReturnBtn" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ReturnBtn_Click">
-            <Image Source="return.jpg"/>
-        </Button>
-       <!-- <ScrollViewer x:Name="MainScroll">
-            
-        </ScrollViewer> -->
+    <Grid>
+        <ScrollViewer>
+            <StackPanel x:Name="MainStack">
+                
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

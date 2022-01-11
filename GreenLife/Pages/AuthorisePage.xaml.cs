@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GreenLifeLib;
 
@@ -18,22 +19,22 @@ namespace GreenLife
     /// <summary>
     /// Вход в приложение
     /// </summary>
-    public partial class Authorise : Window
+    public partial class AuthorisePage : Page
     {
         #region [Fields]
 
-        public Account _account = null;
+        private Account _account = null;
+        private LoginWindow _lw;
 
         #endregion
 
         #region [Constructors]
 
-        public Authorise()
+        public AuthorisePage(LoginWindow lw)
         {
-            //TODO: Сделать возможность сохранения данных пользователя
-            //Если первый раз зашел и файла нет - создать файл либо смотреть по бд (id или что-то такое) + статус "Unlogged"
-            //Если залогинился или зарегался - менять на статус "Logged"
             InitializeComponent();
+
+            _lw = lw;
         }
 
         #endregion
@@ -44,29 +45,43 @@ namespace GreenLife
         {
             string _login = LoginTBox.Text;
             string _password = Account.ToHash(PassBox.Password);
+
             using (ApplicationContext db = new())
             {
-                    _account = (from account in db.Account
-                                where account.Login == _login
-                                where account.Password == _password
-                                select account).First();
+                _account = (from account in db.Account
+                            where account.Login == _login
+                            where account.Password == _password
+                            select account).First();
             }
+
             if (_account == null)
                 MessageBox.Show("Неправильное имя пользователя или пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-            else 
-            { 
-                //TODO: Redirect to MainWindow and close this Window
+            else
+            {
+                MainWindow mainWindow = new(_account);
+                RedirectToMain(mainWindow);
             }
         }
 
         private void RegButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: Redirect to Register Page
+            _lw.PagesShow.Navigate(new RegPage(_lw));
         }
 
         private void SimpleButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: Redirect to MainWindow
+            MainWindow mainWindow = new();
+            RedirectToMain(mainWindow); 
+        }
+
+        #endregion
+
+        #region [Methods]
+
+        private void RedirectToMain(Window window)
+        {
+            window.Show();
+            _lw.Close();
         }
 
         #endregion

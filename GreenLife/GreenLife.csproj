@@ -7,7 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="checkbtn.jpg" />
+    <None Remove="memobtn.jpg" />
+    <None Remove="planet.jpg" />
+    <None Remove="planetbtn.jpg" />
+    <None Remove="settingsbtn.jpg" />
+    <None Remove="user.jpg" />
+    <None Remove="userbtn.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GreenLifeLib\GreenLifeLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="imgs\checkbtn.jpg" />
+    <Resource Include="imgs\memobtn.jpg" />
+    <Resource Include="imgs\planet.jpg" />
+    <Resource Include="imgs\planetbtn.jpg" />
+    <Resource Include="imgs\settingsbtn.jpg" />
+    <Resource Include="imgs\user.jpg" />
+    <Resource Include="imgs\userbtn.jpg" />
   </ItemGroup>
 
 </Project>

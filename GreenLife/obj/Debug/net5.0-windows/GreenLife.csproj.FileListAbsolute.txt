@@ -61,3 +61,5 @@ C:\Users\taria\Desktop\GreenLife\GreenLife\obj\Debug\net5.0-windows\HabitsPage.b
 C:\Users\taria\Desktop\GreenLife\GreenLife\obj\Debug\net5.0-windows\QuestionPage.baml
 C:\Users\taria\Desktop\GreenLife\GreenLife\obj\Debug\net5.0-windows\RegPage.baml
 C:\Users\taria\Desktop\GreenLife\GreenLife\obj\Debug\net5.0-windows\GreenLife.csproj.CopyComplete
+C:\Users\taria\Desktop\GreenLife\GreenLife\obj\Debug\net5.0-windows\MainPage.g.cs
+C:\Users\taria\Desktop\GreenLife\GreenLife\obj\Debug\net5.0-windows\MainPage.baml

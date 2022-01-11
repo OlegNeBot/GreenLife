@@ -7,57 +7,81 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="AccPage.xaml.cs">
+    <Compile Update="Windows\LoginWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Authorise.xaml.cs">
+    <Compile Update="Pages\AuthorisePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="CheckBoxPage.xaml.cs">
+    <Compile Update="Pages\AccPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="HabitsPage.xaml.cs">
+    <Compile Update="Pages\ColorPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MemoPage.xaml.cs">
+    <Compile Update="Pages\ElementPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="QuestionPage.xaml.cs">
+    <Compile Update="Pages\CheckBoxPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="RegPage.xaml.cs">
+    <Compile Update="Pages\HabitsPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="SettingsPage.xaml.cs">
+    <Compile Update="Pages\MainPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\MemoPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\QuestionPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\RegPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\SettingsPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="AccPage.xaml">
+    <Page Update="Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Authorise.xaml">
+    <Page Update="Pages\AuthorisePage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="CheckBoxPage.xaml">
+    <Page Update="Pages\AccPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="HabitsPage.xaml">
+    <Page Update="Pages\ColorPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MainWindow.xaml">
+    <Page Update="Pages\ElementPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MemoPage.xaml">
+    <Page Update="Pages\CheckBoxPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="QuestionPage.xaml">
+    <Page Update="Pages\HabitsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="RegPage.xaml">
+    <Page Update="Pages\MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="SettingsPage.xaml">
+    <Page Update="Windows\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\MemoPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\QuestionPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\RegPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

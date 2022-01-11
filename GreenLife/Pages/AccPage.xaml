@@ -25,17 +25,13 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button x:Name="ReturnBtn" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ReturnBtn_Click">
-            <Image Source="return.jpg"/>
-        </Button>
-        <Image Source="user.jpg" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Margin="10"/>
-        <TextBlock x:Name="NameBlock" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" FontSize="20" FontFamily="Arial Bold"
+        <Image Source="imgs/user.jpg" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="3" Margin="10"/>
+        <TextBlock x:Name="NameBlock" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="5" FontSize="20" FontFamily="Arial Bold"
        Margin="0, 0 ,5,0" Padding="0 0 0 30"></TextBlock>
-        <TextBlock x:Name="SexBlock" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="5" FontSize="20" FontFamily="Arial Bold"
+        <TextBlock x:Name="SexBlock" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" FontSize="20" FontFamily="Arial Bold"
        Margin="0, 0 , 5,0" Padding="0 0 0 30"></TextBlock>
-        <TextBlock x:Name="DOBBlock" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="5" FontSize="20" FontFamily="Arial Bold"
+        <TextBlock x:Name="DOBBlock" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="5" FontSize="20" FontFamily="Arial Bold"
        Margin="0, 0 ,5,0" Padding="0 0 0 30"></TextBlock>
     </Grid>
 </Page>

@@ -21,18 +21,27 @@ namespace GreenLife
     /// </summary>
     public partial class MemoPage : Page
     {
+        #region [Fields]
+
+        private readonly Button _btn;
+
+        #endregion
+
         #region [Constructors]
 
-        public MemoPage()
+        public MemoPage(Button btn)
         {
             InitializeComponent();
+
+            _btn = btn;
+            Unloaded += MemoPage_Unloaded;
 
             var _memos = Memo.GetMemos();
             foreach (Memo _memo in _memos)
             {
-                Button _button = new() { Content = _memo.MemoName};
-                _button.Click += Button_Click;
-                MainStack.Children.Add(_button);
+                Button button = new() { Content = _memo.MemoName};
+                button.Click += Button_Click;
+                MainStack.Children.Add(button);
             }
         }
 
@@ -40,14 +49,18 @@ namespace GreenLife
 
         #region [Buttons]
 
-        private void ReturnBtn_Click(object sender, RoutedEventArgs e)
-        { 
-            //Redirect to main
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         { 
             //TODO: Open a png-image with it
+        }
+
+        #endregion
+
+        #region [Methods]
+
+        private void MemoPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _btn.IsEnabled = true;
         }
 
         #endregion

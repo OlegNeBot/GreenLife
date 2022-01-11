@@ -21,29 +21,33 @@ namespace GreenLife
     /// </summary>
     public partial class AccPage : Page
     {
+        #region [Fields]
+
+        private readonly Button _btn;
+
+        #endregion
+
         #region [Constructors]
 
-        public AccPage(Account acc)
+        public AccPage(Account acc, Button btn)
         {
             InitializeComponent();
+
+            _btn = btn;
+            Unloaded += AccPage_Unloaded;
 
             NameBlock.Text = acc.Name + acc.FamilyName;
             SexBlock.Text = "Пол: " + acc.UserSex;
             DOBBlock.Text = "Дата рождения: \n" + acc.DateOfBirth;
         }
 
-        public AccPage()
-        {
-            InitializeComponent();
-        }
-
         #endregion
 
         #region [Methods]
 
-        private void ReturnBtn_Click(object sender, RoutedEventArgs e)
+        private void AccPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            //TODO: Redirect to Main
+            _btn.IsEnabled = true;
         }
 
         #endregion
