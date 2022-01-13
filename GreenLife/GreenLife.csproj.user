@@ -7,7 +7,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Windows\LoginWindow.xaml.cs">
+    <Compile Update="Pages\ImagePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="LoginWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Pages\AuthorisePage.xaml.cs">
@@ -45,7 +48,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Windows\LoginWindow.xaml">
+    <Page Update="Pages\ImagePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="LoginWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\AuthorisePage.xaml">
@@ -69,7 +75,7 @@
     <Page Update="Pages\MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\MainWindow.xaml">
+    <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\MemoPage.xaml">

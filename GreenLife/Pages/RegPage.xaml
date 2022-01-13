@@ -8,7 +8,7 @@
       MinHeight="500" MaxHeight="500" MinWidth="400" MaxWidth="400"
         Title="Регистрация" Height="500" Width="400">
 
-    <Grid>
+    <Grid Background="AntiqueWhite">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="57*"/>
             <ColumnDefinition Width="57*"/>
@@ -36,50 +36,37 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4"  FontSize="20" FontFamily="Segoe UI"
+        <Label Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="4"  FontSize="19" FontFamily="Segoe UI"
                 FontWeight="Black" HorizontalContentAlignment="Center" >Регистрация</Label>
-        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" FontSize="18" FontFamily="Arial"
-                   HorizontalAlignment="Center" Margin="0, 10, 55, 0">Ваше имя</TextBlock>
-        <TextBox x:Name="RegNameBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Padding="5 0 0 0" FontSize="18" BorderThickness="2" Margin="5, 5, 5, 5"></TextBox>
-        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" FontSize="18" FontFamily="Arial"
-                   HorizontalAlignment="Center" Margin="0, 10, 10, 0">Ваша фамилия</TextBlock>
-        <TextBox x:Name="RegFNameBox" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="5" Padding="5 0 0 0" FontSize="18" BorderThickness="2" Margin="5, 5, 5, 5"></TextBox>
-        <!--<TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" FontSize="18" FontFamily="Arial"
-                   HorizontalAlignment="Center" Margin="0,10,10,0">Ваш пол</TextBlock> -->
-        <ComboBox x:Name="RegSexBox" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="5, 5, 5, 5" BorderThickness="2" SelectionChanged="RegSexBox_Selected">
-            <ComboBoxItem IsSelected="True" IsEnabled="False">
-                <TextBlock>Ваш пол</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock x:Name="RegSexMale">Мужской</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock x:Name="RegSexFemale">Женский</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock x:Name="RegSexOther">Другой</TextBlock>
-            </ComboBoxItem>
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" FontSize="17" FontFamily="Arial"
+                   Margin="55, 10, 55, 0">Ваше имя</TextBlock>
+        <TextBox x:Name="RegNameBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Padding="5 0 0 0" FontSize="14" BorderThickness="2" Margin="5, 5, 5, 2"></TextBox>
+        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" FontSize="17" FontFamily="Arial"
+                   Margin="55, 10, 10, 0">Ваша фамилия</TextBlock>
+        <TextBox x:Name="RegFNameBox" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="5" Padding="5 0 0 0" FontSize="14" BorderThickness="2" Margin="5, 5, 5, 2"></TextBox>
+        <ComboBox x:Name="RegSexBox" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="5, 7, 5, -2" BorderThickness="2" SelectionChanged="RegSexBox_Selected" FontSize="14" Padding="5 2 0 0">
+            <ComboBoxItem IsSelected="True" IsEnabled="False">Ваш пол</ComboBoxItem>
+            <ComboBoxItem>Мужской</ComboBoxItem>
+            <ComboBoxItem>Женский</ComboBoxItem>
+            <ComboBoxItem>Другой</ComboBoxItem>
         </ComboBox>
-        <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6" FontSize="18" FontFamily="Arial"
-                   HorizontalAlignment="Center" Margin="0, 10, 15, 0">Ваша дата рождения</TextBlock>
-        <DatePicker x:Name="DOBPicker" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="5" FontSize="13" FontFamily="Arial"
-                    Margin="5, 5, 5, 5" IsDropDownOpen="False" SelectedDateFormat="Short" 
+        <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6" FontSize="17" FontFamily="Arial"
+                    Margin="55, 10, 0, 0">Ваша дата рождения</TextBlock>
+        <DatePicker x:Name="DOBPicker" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="5" FontSize="14" FontFamily="Arial"
+                    Margin="5, 5, 5, 1" IsDropDownOpen="False" SelectedDateFormat="Short" 
                     SelectedDateChanged="DOBPicker_Changed">
-            <DatePicker.BlackoutDates>
-                <CalendarDateRange Start="1/1/1900"></CalendarDateRange>
-            </DatePicker.BlackoutDates>
         </DatePicker>
-        <TextBlock Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="5" FontSize="18" FontFamily="Arial"
-                   HorizontalAlignment="Center" Margin="0, 10, 10, 0">Введите логин</TextBlock>
-        <TextBox x:Name="RegLoginBox" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="5" Padding="5 0 0 0" FontSize="18" BorderThickness="2" Margin="5, 5, 5, 5"></TextBox>
-        <TextBlock Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="5" FontSize="18" FontFamily="Arial"
-                   HorizontalAlignment="Center" Margin="30, 10, 0, 0">Придумайте пароль</TextBlock>
-        <PasswordBox x:Name="RegPassBox" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="5" Padding="5 0 0 0" FontSize="18" BorderThickness="2" Margin="5, 5, 5, 5"></PasswordBox>
-        <TextBlock Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="5" FontSize="18" FontFamily="Arial"
-                   HorizontalAlignment="Center" Margin="35, 10, 0, 0">Подтвердите пароль</TextBlock>
-        <PasswordBox x:Name="RegConfirmBox" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="5" Padding="5 0 0 0" FontSize="18" BorderThickness="2" Margin="5, 5, 5, 5"></PasswordBox>
-        <Button x:Name="RegAcceptBtn" Content="Зарегистрироваться" Grid.Row="14" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="5" FontSize="14" Margin="40, 15, 40, 15" Click="RegAcceptBtn_Click"/>
+        <TextBlock Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="5" FontSize="17" FontFamily="Arial"
+                   Margin="55, 10, 10, 0">Введите логин</TextBlock>
+        <TextBox x:Name="RegLoginBox" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="5" Padding="5 0 0 0" FontSize="14" BorderThickness="2" Margin="5, 5, 5, 2"></TextBox>
+        <TextBlock Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="5" FontSize="17" FontFamily="Arial"
+                   Margin="55, 10, 0, 0">Придумайте пароль</TextBlock>
+        <PasswordBox x:Name="RegPassBox" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="5" Padding="5 0 0 0" FontSize="14" BorderThickness="2" Margin="5, 5, 5, 2"></PasswordBox>
+        <TextBlock Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="5" FontSize="17" FontFamily="Arial"
+                   Margin="55, 10, 0, 0">Подтвердите пароль</TextBlock>
+        <PasswordBox x:Name="RegConfirmBox" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="5" Padding="5 0 0 0" FontSize="14" BorderThickness="2" Margin="5, 5, 5, 2"></PasswordBox>
+        <Button x:Name="RegAcceptBtn" Content="Зарегистрироваться" Grid.Row="14" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="5" FontSize="14" Margin="35, 10, 35, 20" Click="RegAcceptBtn_Click" FontFamily="Arial Bold" Background="LightGreen"/>
     </Grid>
 </Page>

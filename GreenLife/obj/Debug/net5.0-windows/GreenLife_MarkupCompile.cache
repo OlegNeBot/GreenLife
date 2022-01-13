@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
 C:\Users\taria\Desktop\GreenLife\GreenLife\App.xaml
-10310438469
+14-1140523391
 
-121492420638
+161549140347
 2141387541057
-AccPage.xaml;Authorise.xaml;CheckBoxPage.xaml;HabitsPage.xaml;MainPage.xaml;MainWindow.xaml;MemoPage.xaml;QuestionPage.xaml;RegPage.xaml;SettingsPage.xaml;
+LoginWindow.xaml;MainWindow.xaml;Pages\AccPage.xaml;Pages\AuthorisePage.xaml;Pages\CheckBoxPage.xaml;Pages\ColorPage.xaml;Pages\ElementPage.xaml;Pages\HabitsPage.xaml;Pages\ImagePage.xaml;Pages\MainPage.xaml;Pages\MemoPage.xaml;Pages\QuestionPage.xaml;Pages\RegPage.xaml;Pages\SettingsPage.xaml;
 
 False
 

@@ -1,31 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenLifeLib
 {
     public class DayPhrase
     {
+        #region [Props]
+
         public int Id { get; set; }
         public string PhraseText { get; set; }
 
+        #endregion
+
+        #region [Rels]
+
         public List<PagePhrase> PagePhrase { get; set; }
+
+        #endregion
+
+        #region [Methods]
 
         public static string GetRandomPhrase()
         {
-            /* using (ApplicationContext db = new())
+            using (ApplicationContext db = new())
              {
-                 var _phrases = db.DayPhrase.ToList();
-                 int _containing = _phrases.Count;
-                 Random _rnd = new(_containing);
-                 int _num = _rnd.Next();
-                 return _phrases[_num].PhraseText;
+                var cnt = db.DayPhrase.Count();
+                Random rnd = new();
+                int num = rnd.Next(cnt);
+                var phrase = db.DayPhrase.Where(p => p.Id == num + 1).First();
+                return phrase.PhraseText;
              }
-            */
-            //TODO: Rework randoms
-            return "Some Phrase";
         }
+
+        #endregion
     }
 }

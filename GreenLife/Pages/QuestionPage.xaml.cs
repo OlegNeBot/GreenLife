@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using GreenLifeLib;
 
 namespace GreenLife
@@ -12,48 +13,48 @@ namespace GreenLife
     {
         #region [Fields]
 
-        public Question _question;
-        public Answer _answer;
+        private bool _isntAnswered = true;
+        private Question _question;
+        private Answer _answer;
+
+        private readonly LoginWindow _lw;
+        private Account _acc;
 
         #endregion
 
         #region [Constructors]
 
-        public QuestionPage(Account acc)
+        public QuestionPage(Account acc, LoginWindow lw)
         {
             InitializeComponent();
 
-            var _questions = Question.GetQuestions();
-            for (int i = 0; i < _questions.Count; i++)
+            _lw = lw;
+            _acc = acc;
+
+            var questions = Question.GetQuestions();
+            foreach (Question q in questions)
             {
-                QuestionLabel.Content = "Вопрос " + (i + 1);
-                while (true)
+                int num = questions.IndexOf(q);
+                QuestionLabel.Content = "Вопрос " + (num + 1);
+                _isntAnswered = true;
+                while (_isntAnswered)
                 {
-                    _question = _questions[i];
-                    QuestionBlock.Text = _question.QuestText;
-                    var _answers = Answer.GetAnswersByQuestion(_question.Id).ToList();
-                    foreach (Answer answ in _answers)
+                    _question = q;
+                    QuestionBlock.Text = q.QuestText;
+                    var answers = Answer.GetAnswersByQuestion(q.Id).ToList();
+                    foreach (Answer answ in answers)
                     {
-                        _answer = answ;
-                        RadioButton radioButton = new() { IsChecked = false, GroupName = "Answer", Content = _answer.AnswerText };
+                        RadioButton radioButton = new() { IsChecked = false, GroupName = "Answer", Content = answ.AnswerText };
+                        radioButton.Background = new SolidColorBrush(Colors.LightGreen);
                         radioButton.Width = 100;
                         radioButton.Height = 150;
                         radioButton.Checked += Button_Click;
                         mainGrid.Children.Add(radioButton);
                     }
-                   /* Button button = new Button();
-                    button.Height = 100;
-                    button.Width = 150;
-                    button.Content = "Отправить";
-                   */
                 }
             }
         }
 
-        public QuestionPage()
-        {
-            InitializeComponent();
-        }
 
         #endregion
 
@@ -62,10 +63,14 @@ namespace GreenLife
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             RadioButton pressed = (RadioButton)sender;
-            MessageBox.Show(pressed.Content.ToString());
-            UserAnswer _userAnswer = new() { Question = _question, Answer = _answer };
-            UserAnswer.AddUserAnswer(_userAnswer);
-            //TODO: Continue the cycle
+            string answText = pressed.Content.ToString();
+            using (ApplicationContext db = new())
+            {
+                _answer = db.Answer.Where(p => p.AnswerText == answText).First();
+            }
+                UserAnswer userAnswer = new() { Question = _question, Answer = _answer, Account = _acc };
+                UserAnswer.AddUserAnswer(userAnswer);
+            _isntAnswered = false;
         }
 
         #endregion

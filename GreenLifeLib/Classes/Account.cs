@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,11 +7,14 @@ namespace GreenLifeLib
 {
     public class Account
     {
-        public int Id { get; private set; }
+        #region [Props]
+
+        public int Id { get; set; }
         public string Login { get; private set; }
 
         private string _password = null;
-        public string Password {
+        public string Password 
+        {
             get { return _password; }
             private set { _password = ToHash(value); }
         }
@@ -28,10 +30,23 @@ namespace GreenLifeLib
         public DateTime DateOfBirth { get; private set; }
         public DateTime RegDate { get; private set; }
 
+        #endregion
+
+        #region [Rels]
+
         public User User { get; set; }
         public List<UserAnswer> UserAnswer { get; set; }
+        public List<CheckList> CheckList { get; set; }
+        public List<HabitPerformance> HabitPerformance { get; set; }
 
-        public Account() { }
+        #endregion
+
+        #region [Constructors]
+
+        public Account()
+        { 
+        
+        }
 
         public Account(string login, string password, string name, string fname, string sex, DateTime? dOB, DateTime reg) 
         {
@@ -43,6 +58,10 @@ namespace GreenLifeLib
             DateOfBirth = (DateTime)dOB;
             RegDate = reg;
         }
+
+        #endregion
+
+        #region [Methods]
 
         public static void AddAccount(Account acc)
         {
@@ -74,18 +93,20 @@ namespace GreenLifeLib
                 {
                     if (_acc.Login.ToLower().Equals(login.ToLower()))
                         return false;
-                }
+                } 
                 return true;
             }
         }
 
         private static Sex ToSex(string sex)
         {
-            if (sex.Equals(Sex.Мужской))
+            if (sex.Equals(Sex.Мужской.ToString()))
                 return Sex.Мужской;
-            else if (sex.Equals(Sex.Женский))
+            else if (sex.Equals(Sex.Женский.ToString()))
                 return Sex.Женский;
             else return Sex.Другой;
         }
+
+        #endregion
     }
 }

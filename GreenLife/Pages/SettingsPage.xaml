@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       MinHeight="500" MaxHeight="500" MinWidth="400" MaxWidth="400"
         Title="Настройки" Height="500" Width="400">
-    <Grid>
+    <Grid Background="AntiqueWhite">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="57*"/>
             <ColumnDefinition Width="57*"/>

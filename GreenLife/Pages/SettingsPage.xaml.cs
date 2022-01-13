@@ -23,60 +23,51 @@ namespace GreenLife
     {
         #region [Fields]
 
-        private bool _isLogged;
         private readonly Button _btn;
+        private readonly MainWindow _mW;
 
         #endregion
 
         #region [Constructors]
 
-        public SettingsPage(Account acc, Button btn)
+        public SettingsPage(Account acc, Button btn, MainWindow mainWindow)
         {
-            LogoutBtn.Background = new SolidColorBrush(Colors.White);
+            InitializeComponent();
+
+            LogoutBtn.Background = new SolidColorBrush(Colors.AntiqueWhite);
             LogoutBtn.Foreground = new SolidColorBrush(Colors.Red);
             LogoutBtn.Content = "Выйти из аккаунта";
 
-            InitializeComponent();
-
             _btn = btn;
             Unloaded += SettingsPage_Unloaded;
 
-            _isLogged = true;
+            _mW = mainWindow;
         }
 
-        public SettingsPage(Button btn)
-        {   //TODO: Rework the NullReferenceException
-            /* LogoutBtn.Background = new SolidColorBrush(Colors.AliceBlue);
-            LogoutBtn.Foreground = new SolidColorBrush(Colors.White); 
-            LogoutBtn.Content = "Зарегистрироваться"; */
-
+        public SettingsPage(Button btn, MainWindow mainWindow)
+        {   
             InitializeComponent();
+
+            LogoutBtn.Background = new SolidColorBrush(Colors.LightGreen);
+            LogoutBtn.Foreground = new SolidColorBrush(Colors.Black); 
+            LogoutBtn.Content = "Авторизоваться"; 
 
             _btn = btn;
             Unloaded += SettingsPage_Unloaded;
 
-            _isLogged = false;
+            _mW = mainWindow;
         }
 
         #endregion
 
         #region [Buttons]
 
-        private void ReturnBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //Redirect to main
-        }
 
         private void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (!_isLogged)
-            {
-                //Redirect to reg
-            }
-            else if (_isLogged)
-            {
-                //Redirect to login
-            }
+                LoginWindow loginWindow = new();
+                loginWindow.Show();
+                _mW.Close();
         }
 
         #endregion

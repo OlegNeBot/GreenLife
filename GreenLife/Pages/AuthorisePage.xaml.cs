@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using GreenLifeLib;
 
 namespace GreenLife
@@ -43,29 +33,31 @@ namespace GreenLife
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string _login = LoginTBox.Text;
-            string _password = Account.ToHash(PassBox.Password);
+            string login = LoginTBox.Text;
+            string pass = PassBox.Password.Trim();
+            string password = Account.ToHash(pass);
 
             using (ApplicationContext db = new())
             {
-                _account = (from account in db.Account
-                            where account.Login == _login
-                            where account.Password == _password
-                            select account).First();
-            }
+                try
+                {
+                    _account = db.Account.Where(p => p.Login == login)
+                        .Where(p => p.Password.Equals(password))
+                        .First();
+                    MainWindow mainWindow = new(_account);
+                    RedirectToMain(mainWindow);
+                }
 
-            if (_account == null)
-                MessageBox.Show("Неправильное имя пользователя или пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-            else
-            {
-                MainWindow mainWindow = new(_account);
-                RedirectToMain(mainWindow);
+                catch (InvalidOperationException)
+                {
+                    MessageBox.Show("Неправильное имя пользователя или пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
         }
 
         private void RegButton_Click(object sender, RoutedEventArgs e)
         {
-            _lw.PagesShow.Navigate(new RegPage(_lw));
+            _lw.RegPagesShow.Navigate(new RegPage(_lw));
         }
 
         private void SimpleButton_Click(object sender, RoutedEventArgs e)

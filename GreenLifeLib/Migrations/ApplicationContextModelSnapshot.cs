@@ -19,21 +19,6 @@ namespace GreenLifeLib.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("AdvicePageAdvice", b =>
-                {
-                    b.Property<int>("AdviceId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PageAdviceId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AdviceId", "PageAdviceId");
-
-                    b.HasIndex("PageAdviceId");
-
-                    b.ToTable("AdvicePageAdvice");
-                });
-
             modelBuilder.Entity("CheckListHabitsHabit", b =>
                 {
                     b.Property<int>("CheckListHabitsId")
@@ -97,7 +82,9 @@ namespace GreenLifeLib.Migrations
             modelBuilder.Entity("GreenLifeLib.Account", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("date")
@@ -138,24 +125,6 @@ namespace GreenLifeLib.Migrations
                     b.ToTable("account");
                 });
 
-            modelBuilder.Entity("GreenLifeLib.Advice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("AdviceText")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("advice_text");
-
-                    b.HasKey("Id")
-                        .HasName("advice_pk");
-
-                    b.ToTable("advice");
-                });
-
             modelBuilder.Entity("GreenLifeLib.Answer", b =>
                 {
                     b.Property<int>("Id")
@@ -182,6 +151,11 @@ namespace GreenLifeLib.Migrations
             modelBuilder.Entity("GreenLifeLib.CheckList", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("AccountId")
                         .HasColumnType("integer");
 
                     b.Property<string>("CheckListName")
@@ -195,13 +169,10 @@ namespace GreenLifeLib.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("exec_status");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id")
                         .HasName("checklist_pk");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AccountId");
 
                     b.ToTable("checklist");
                 });
@@ -218,6 +189,9 @@ namespace GreenLifeLib.Migrations
 
                     b.HasKey("Id")
                         .HasName("checklist_habit_pk");
+
+                    b.HasIndex("CheckListId")
+                        .IsUnique();
 
                     b.ToTable("checklist_habit");
                 });
@@ -240,6 +214,9 @@ namespace GreenLifeLib.Migrations
 
                     b.HasKey("Id")
                         .HasName("checklist_mark_pk");
+
+                    b.HasIndex("CheckListId")
+                        .IsUnique();
 
                     b.ToTable("checklist_mark");
                 });
@@ -312,7 +289,9 @@ namespace GreenLifeLib.Migrations
             modelBuilder.Entity("GreenLifeLib.Habit", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("CheckListId")
                         .HasColumnType("integer");
@@ -321,9 +300,6 @@ namespace GreenLifeLib.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("habit_name");
-
-                    b.Property<int?>("HabitPerformanceId")
-                        .HasColumnType("integer");
 
                     b.Property<int?>("HabitTypeId")
                         .HasColumnType("integer");
@@ -338,8 +314,6 @@ namespace GreenLifeLib.Migrations
                     b.HasKey("Id")
                         .HasName("habit_pk");
 
-                    b.HasIndex("HabitPerformanceId");
-
                     b.HasIndex("HabitTypeId");
 
                     b.ToTable("habit");
@@ -352,6 +326,9 @@ namespace GreenLifeLib.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int?>("AccountId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("DateOfExec")
                         .HasColumnType("timestamptz")
                         .HasColumnName("date_of_exec");
@@ -360,6 +337,12 @@ namespace GreenLifeLib.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("exec_property");
+
+                    b.Property<bool>("Executed")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("executed");
 
                     b.Property<int>("HabitId")
                         .HasColumnType("integer");
@@ -370,13 +353,12 @@ namespace GreenLifeLib.Migrations
                         .HasDefaultValue(1)
                         .HasColumnName("num_of_execs");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id")
                         .HasName("hab_perf_pk");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("HabitId");
 
                     b.ToTable("habit_performance");
                 });
@@ -388,8 +370,19 @@ namespace GreenLifeLib.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int>("HabitId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PhraseText")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("phrase_text");
+
                     b.HasKey("Id")
                         .HasName("habit_phrase_pk");
+
+                    b.HasIndex("HabitId")
+                        .IsUnique();
 
                     b.ToTable("habit_phrase");
                 });
@@ -435,19 +428,6 @@ namespace GreenLifeLib.Migrations
                     b.ToTable("memo");
                 });
 
-            modelBuilder.Entity("GreenLifeLib.PageAdvice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.HasKey("Id")
-                        .HasName("p_adv_pk");
-
-                    b.ToTable("page_advice");
-                });
-
             modelBuilder.Entity("GreenLifeLib.PagePhrase", b =>
                 {
                     b.Property<int>("Id")
@@ -455,37 +435,24 @@ namespace GreenLifeLib.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int>("StartPageId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id")
                         .HasName("page_phrase_pk");
 
+                    b.HasIndex("StartPageId")
+                        .IsUnique();
+
                     b.ToTable("page_phrase");
-                });
-
-            modelBuilder.Entity("GreenLifeLib.Phrase", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("HabitId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("PhraseText")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("phrase_text");
-
-                    b.HasKey("Id")
-                        .HasName("phrase_pk");
-
-                    b.ToTable("phrase");
                 });
 
             modelBuilder.Entity("GreenLifeLib.Planet", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("PlanetRef")
                         .IsRequired()
@@ -508,8 +475,14 @@ namespace GreenLifeLib.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int>("PlanetId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id")
                         .HasName("planet_colors_pk");
+
+                    b.HasIndex("PlanetId")
+                        .IsUnique();
 
                     b.ToTable("planet_color");
                 });
@@ -521,8 +494,14 @@ namespace GreenLifeLib.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int>("PlanetId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id")
                         .HasName("planet_elem_pk");
+
+                    b.HasIndex("PlanetId")
+                        .IsUnique();
 
                     b.ToTable("planet_element");
                 });
@@ -566,6 +545,11 @@ namespace GreenLifeLib.Migrations
             modelBuilder.Entity("GreenLifeLib.StartPage", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("PlanetId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
@@ -573,6 +557,9 @@ namespace GreenLifeLib.Migrations
 
                     b.HasKey("Id")
                         .HasName("start_pk");
+
+                    b.HasIndex("PlanetId")
+                        .IsUnique();
 
                     b.ToTable("start_page");
                 });
@@ -584,6 +571,9 @@ namespace GreenLifeLib.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("RoleId")
                         .HasColumnType("integer");
 
@@ -593,12 +583,21 @@ namespace GreenLifeLib.Migrations
                         .HasDefaultValue(0)
                         .HasColumnName("score_sum");
 
+                    b.Property<int>("StartPageId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id")
                         .HasName("usr_pk");
 
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
                     b.HasIndex("RoleId");
 
-                    b.ToTable("user");
+                    b.HasIndex("StartPageId")
+                        .IsUnique();
+
+                    b.ToTable("usr");
                 });
 
             modelBuilder.Entity("GreenLifeLib.UserAnswer", b =>
@@ -627,36 +626,6 @@ namespace GreenLifeLib.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("user_answer");
-                });
-
-            modelBuilder.Entity("HabitPhrasePhrase", b =>
-                {
-                    b.Property<int>("HabitPhraseId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PhraseId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("HabitPhraseId", "PhraseId");
-
-                    b.HasIndex("PhraseId");
-
-                    b.ToTable("HabitPhrasePhrase");
-                });
-
-            modelBuilder.Entity("AdvicePageAdvice", b =>
-                {
-                    b.HasOne("GreenLifeLib.Advice", null)
-                        .WithMany()
-                        .HasForeignKey("AdviceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GreenLifeLib.PageAdvice", null)
-                        .WithMany()
-                        .HasForeignKey("PageAdviceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("CheckListHabitsHabit", b =>
@@ -719,18 +688,6 @@ namespace GreenLifeLib.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GreenLifeLib.Account", b =>
-                {
-                    b.HasOne("GreenLifeLib.User", "User")
-                        .WithOne("Account")
-                        .HasForeignKey("GreenLifeLib.Account", "Id")
-                        .HasConstraintName("usr_acc_fk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("GreenLifeLib.Answer", b =>
                 {
                     b.HasOne("GreenLifeLib.Question", "Question")
@@ -744,131 +701,150 @@ namespace GreenLifeLib.Migrations
 
             modelBuilder.Entity("GreenLifeLib.CheckList", b =>
                 {
-                    b.HasOne("GreenLifeLib.CheckListHabits", "CheckListHabits")
-                        .WithOne("CheckList")
-                        .HasForeignKey("GreenLifeLib.CheckList", "Id")
+                    b.HasOne("GreenLifeLib.Account", "Account")
+                        .WithMany("CheckList")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("GreenLifeLib.CheckListHabits", b =>
+                {
+                    b.HasOne("GreenLifeLib.CheckList", "CheckList")
+                        .WithOne("CheckListHabits")
+                        .HasForeignKey("GreenLifeLib.CheckListHabits", "CheckListId")
                         .HasConstraintName("chlha_chl_fk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GreenLifeLib.CheckListMark", "CheckListMark")
-                        .WithOne("CheckList")
-                        .HasForeignKey("GreenLifeLib.CheckList", "Id")
+                    b.Navigation("CheckList");
+                });
+
+            modelBuilder.Entity("GreenLifeLib.CheckListMark", b =>
+                {
+                    b.HasOne("GreenLifeLib.CheckList", "CheckList")
+                        .WithOne("CheckListMark")
+                        .HasForeignKey("GreenLifeLib.CheckListMark", "CheckListId")
                         .HasConstraintName("chm_ch_fk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GreenLifeLib.User", "User")
-                        .WithMany("CheckList")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CheckListHabits");
-
-                    b.Navigation("CheckListMark");
-
-                    b.Navigation("User");
+                    b.Navigation("CheckList");
                 });
 
             modelBuilder.Entity("GreenLifeLib.Habit", b =>
                 {
-                    b.HasOne("GreenLifeLib.HabitPerformance", null)
-                        .WithMany("Habit")
-                        .HasForeignKey("HabitPerformanceId");
-
                     b.HasOne("GreenLifeLib.HabitType", "HabitType")
                         .WithMany()
                         .HasForeignKey("HabitTypeId");
-
-                    b.HasOne("GreenLifeLib.HabitPhrase", "HabitPhrase")
-                        .WithOne("Habit")
-                        .HasForeignKey("GreenLifeLib.Habit", "Id")
-                        .HasConstraintName("haph_ha_fk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("HabitPhrase");
 
                     b.Navigation("HabitType");
                 });
 
             modelBuilder.Entity("GreenLifeLib.HabitPerformance", b =>
                 {
-                    b.HasOne("GreenLifeLib.User", "User")
+                    b.HasOne("GreenLifeLib.Account", "Account")
                         .WithMany("HabitPerformance")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("AccountId");
 
-                    b.Navigation("User");
+                    b.HasOne("GreenLifeLib.Habit", "Habit")
+                        .WithMany("HabitPerformance")
+                        .HasForeignKey("HabitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Habit");
                 });
 
-            modelBuilder.Entity("GreenLifeLib.Planet", b =>
+            modelBuilder.Entity("GreenLifeLib.HabitPhrase", b =>
                 {
-                    b.HasOne("GreenLifeLib.PlanetColors", "PlanetColors")
-                        .WithOne("Planet")
-                        .HasForeignKey("GreenLifeLib.Planet", "Id")
-                        .HasConstraintName("plcol_col_fk")
+                    b.HasOne("GreenLifeLib.Habit", "Habit")
+                        .WithOne("HabitPhrase")
+                        .HasForeignKey("GreenLifeLib.HabitPhrase", "HabitId")
+                        .HasConstraintName("haph_ha_fk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GreenLifeLib.PlanetElement", "PlanetElement")
-                        .WithOne("Planet")
-                        .HasForeignKey("GreenLifeLib.Planet", "Id")
-                        .HasConstraintName("plel_el_fk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Habit");
+                });
 
+            modelBuilder.Entity("GreenLifeLib.PagePhrase", b =>
+                {
                     b.HasOne("GreenLifeLib.StartPage", "StartPage")
-                        .WithOne("Planet")
-                        .HasForeignKey("GreenLifeLib.Planet", "Id")
-                        .HasConstraintName("start_plan_fk")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.Navigation("PlanetColors");
-
-                    b.Navigation("PlanetElement");
-
-                    b.Navigation("StartPage");
-                });
-
-            modelBuilder.Entity("GreenLifeLib.StartPage", b =>
-                {
-                    b.HasOne("GreenLifeLib.PageAdvice", "PageAdvice")
-                        .WithOne("StartPage")
-                        .HasForeignKey("GreenLifeLib.StartPage", "Id")
-                        .HasConstraintName("padv_stpa_fk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GreenLifeLib.PagePhrase", "PagePhrase")
-                        .WithOne("StartPage")
-                        .HasForeignKey("GreenLifeLib.StartPage", "Id")
+                        .WithOne("PagePhrase")
+                        .HasForeignKey("GreenLifeLib.PagePhrase", "StartPageId")
                         .HasConstraintName("paph_stpa_fk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GreenLifeLib.User", "User")
+                    b.Navigation("StartPage");
+                });
+
+            modelBuilder.Entity("GreenLifeLib.PlanetColors", b =>
+                {
+                    b.HasOne("GreenLifeLib.Planet", "Planet")
+                        .WithOne("PlanetColors")
+                        .HasForeignKey("GreenLifeLib.PlanetColors", "PlanetId")
+                        .HasConstraintName("plcol_col_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Planet");
+                });
+
+            modelBuilder.Entity("GreenLifeLib.PlanetElement", b =>
+                {
+                    b.HasOne("GreenLifeLib.Planet", "Planet")
+                        .WithOne("PlanetElement")
+                        .HasForeignKey("GreenLifeLib.PlanetElement", "PlanetId")
+                        .HasConstraintName("plel_el_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Planet");
+                });
+
+            modelBuilder.Entity("GreenLifeLib.StartPage", b =>
+                {
+                    b.HasOne("GreenLifeLib.Planet", "Planet")
                         .WithOne("StartPage")
-                        .HasForeignKey("GreenLifeLib.StartPage", "Id")
-                        .HasConstraintName("us_start_fk")
+                        .HasForeignKey("GreenLifeLib.StartPage", "PlanetId")
+                        .HasConstraintName("start_plan_fk")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
-                    b.Navigation("PageAdvice");
-
-                    b.Navigation("PagePhrase");
-
-                    b.Navigation("User");
+                    b.Navigation("Planet");
                 });
 
             modelBuilder.Entity("GreenLifeLib.User", b =>
                 {
+                    b.HasOne("GreenLifeLib.Account", "Account")
+                        .WithOne("User")
+                        .HasForeignKey("GreenLifeLib.User", "AccountId")
+                        .HasConstraintName("usr_acc_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GreenLifeLib.Role", "Role")
                         .WithMany("User")
                         .HasForeignKey("RoleId");
 
+                    b.HasOne("GreenLifeLib.StartPage", "StartPage")
+                        .WithOne("User")
+                        .HasForeignKey("GreenLifeLib.User", "StartPageId")
+                        .HasConstraintName("us_start_fk")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
                     b.Navigation("Role");
+
+                    b.Navigation("StartPage");
                 });
 
             modelBuilder.Entity("GreenLifeLib.UserAnswer", b =>
@@ -894,23 +870,14 @@ namespace GreenLifeLib.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("HabitPhrasePhrase", b =>
-                {
-                    b.HasOne("GreenLifeLib.HabitPhrase", null)
-                        .WithMany()
-                        .HasForeignKey("HabitPhraseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GreenLifeLib.Phrase", null)
-                        .WithMany()
-                        .HasForeignKey("PhraseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("GreenLifeLib.Account", b =>
                 {
+                    b.Navigation("CheckList");
+
+                    b.Navigation("HabitPerformance");
+
+                    b.Navigation("User");
+
                     b.Navigation("UserAnswer");
                 });
 
@@ -919,44 +886,27 @@ namespace GreenLifeLib.Migrations
                     b.Navigation("UserAnswer");
                 });
 
-            modelBuilder.Entity("GreenLifeLib.CheckListHabits", b =>
+            modelBuilder.Entity("GreenLifeLib.CheckList", b =>
                 {
-                    b.Navigation("CheckList");
+                    b.Navigation("CheckListHabits");
+
+                    b.Navigation("CheckListMark");
                 });
 
-            modelBuilder.Entity("GreenLifeLib.CheckListMark", b =>
+            modelBuilder.Entity("GreenLifeLib.Habit", b =>
                 {
-                    b.Navigation("CheckList");
+                    b.Navigation("HabitPerformance");
+
+                    b.Navigation("HabitPhrase");
                 });
 
-            modelBuilder.Entity("GreenLifeLib.HabitPerformance", b =>
+            modelBuilder.Entity("GreenLifeLib.Planet", b =>
                 {
-                    b.Navigation("Habit");
-                });
+                    b.Navigation("PlanetColors");
 
-            modelBuilder.Entity("GreenLifeLib.HabitPhrase", b =>
-                {
-                    b.Navigation("Habit");
-                });
+                    b.Navigation("PlanetElement");
 
-            modelBuilder.Entity("GreenLifeLib.PageAdvice", b =>
-                {
                     b.Navigation("StartPage");
-                });
-
-            modelBuilder.Entity("GreenLifeLib.PagePhrase", b =>
-                {
-                    b.Navigation("StartPage");
-                });
-
-            modelBuilder.Entity("GreenLifeLib.PlanetColors", b =>
-                {
-                    b.Navigation("Planet");
-                });
-
-            modelBuilder.Entity("GreenLifeLib.PlanetElement", b =>
-                {
-                    b.Navigation("Planet");
                 });
 
             modelBuilder.Entity("GreenLifeLib.Question", b =>
@@ -973,18 +923,9 @@ namespace GreenLifeLib.Migrations
 
             modelBuilder.Entity("GreenLifeLib.StartPage", b =>
                 {
-                    b.Navigation("Planet");
-                });
+                    b.Navigation("PagePhrase");
 
-            modelBuilder.Entity("GreenLifeLib.User", b =>
-                {
-                    b.Navigation("Account");
-
-                    b.Navigation("CheckList");
-
-                    b.Navigation("HabitPerformance");
-
-                    b.Navigation("StartPage");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

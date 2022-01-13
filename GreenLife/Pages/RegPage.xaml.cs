@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using GreenLifeLib;
 
 namespace GreenLife
@@ -53,58 +42,54 @@ namespace GreenLife
         {
             _name = RegNameBox.Text;
             _fname = RegFNameBox.Text;
+
             _login = RegLoginBox.Text;
             if (!Account.IsLoginAvailable(_login))
             {
-                //Tell to the user about wrong login (MessageBox or PopUp)
+                MessageBox.Show("Логин уже занят!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
-            _password = RegPassBox.Password;
-            _confPass = RegConfirmBox.Password;
-            if (IsPassEqual(_password, _confPass))
-                _password = Account.ToHash(_password);
-            else
+
+            _password = RegPassBox.Password.Trim();
+            _confPass = RegConfirmBox.Password.Trim();
+            if (!IsPassEqual(_password, _confPass))
             {
-                //Tell to the user about wrong password (Same)
+                MessageBox.Show("Пароли не совпадают!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
+
             _regDate = DateTime.Now;
 
             Account account = new(_login, _password, _name, _fname, _sex, _dOB, _regDate);
             Account.AddAccount(account);
 
-            MessageBoxResult result = MessageBox.Show("Вы хотите пройти анкету, чтобы персонализировать чек-листы?", "Анкета", MessageBoxButton.YesNo, MessageBoxImage.Information);
-            if (result == MessageBoxResult.Yes)
-            {
-                _lw.PagesShow.Navigate(new QuestionPage());
-            }
-            else 
-            {
-                MainWindow mainWindow = new(account);
-                mainWindow.Show();
-                _lw.Close();
-            }
+            MainWindow mainWindow = new(account);
+            mainWindow.Show();
+            _lw.Close();
+            
         }
 
         private void RegSexBox_Selected(object sender, RoutedEventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ComboBoxItem selectedItem = (ComboBoxItem)comboBox.SelectedItem;
-            MessageBox.Show(selectedItem.Content.ToString());
-            _sex = selectedItem.Content.ToString();
+            ComboBoxItem selected = (ComboBoxItem)comboBox.SelectedItem;
+            if (!(selected.Content == null))
+                _sex = selected.Content.ToString();
         }
 
         private void DOBPicker_Changed(object sender, SelectionChangedEventArgs e)
         {
-            DateTime? selectedDate = DOBPicker.SelectedDate;
-            _dOB = selectedDate;
+            DateTime? selected = DOBPicker.SelectedDate;
+            _dOB = selected;
         }
 
         #endregion
 
         #region [Methods]
 
-        private bool IsPassEqual(string _userPass, string _confPass)
+        private static bool IsPassEqual(string userPass, string confPass)
         {
-            if (_userPass.Equals(_confPass))
+            if (userPass.Equals(confPass))
                 return true;
             return false;
         }

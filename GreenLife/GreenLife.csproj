@@ -9,6 +9,18 @@
   <ItemGroup>
     <None Remove="checkbtn.jpg" />
     <None Remove="memobtn.jpg" />
+    <None Remove="memos\1.jpg" />
+    <None Remove="memos\2.jpg" />
+    <None Remove="memos\3.jpg" />
+    <None Remove="memos\4.jpg" />
+    <None Remove="memos\5.jpg" />
+    <None Remove="memos\6.jpg" />
+    <None Remove="memos\7.jpg" />
+    <None Remove="memos\8.jpg" />
+    <None Remove="memos\9.jpg" />
+    <None Remove="Pages\pageimgs\return.jpg" />
+    <None Remove="Pages\pageimgs\sn.jpg" />
+    <None Remove="planet.ico" />
     <None Remove="planet.jpg" />
     <None Remove="planetbtn.jpg" />
     <None Remove="settingsbtn.jpg" />
@@ -23,11 +35,23 @@
   <ItemGroup>
     <Resource Include="imgs\checkbtn.jpg" />
     <Resource Include="imgs\memobtn.jpg" />
-    <Resource Include="imgs\planet.jpg" />
+    <Resource Include="memos\1.jpg" />
+    <Resource Include="memos\2.jpg" />
+    <Resource Include="memos\3.jpg" />
+    <Resource Include="memos\4.jpg" />
+    <Resource Include="memos\5.jpg" />
+    <Resource Include="memos\6.jpg" />
+    <Resource Include="memos\7.jpg" />
+    <Resource Include="memos\8.jpg" />
+    <Resource Include="memos\9.jpg" />
+    <Resource Include="Pages\pageimgs\planet.jpg" />
     <Resource Include="imgs\planetbtn.jpg" />
     <Resource Include="imgs\settingsbtn.jpg" />
-    <Resource Include="imgs\user.jpg" />
+    <Resource Include="Pages\pageimgs\return.jpg" />
+    <Resource Include="Pages\pageimgs\sn.jpg" />
+    <Resource Include="Pages\pageimgs\user.jpg" />
     <Resource Include="imgs\userbtn.jpg" />
+    <Resource Include="planet.ico" />
   </ItemGroup>
 
 </Project>

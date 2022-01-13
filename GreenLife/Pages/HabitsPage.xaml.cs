@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using GreenLifeLib;
 
 namespace GreenLife
@@ -23,33 +15,29 @@ namespace GreenLife
     {
         #region [Constructors]
 
-        public HabitsPage()
-        {
-            InitializeComponent();
-        }
-
         public HabitsPage(CheckList cl)
         {
             InitializeComponent();
 
-            var _habits = Habit.GetHabitsOfCheckList(cl.Id);
-            foreach (Habit _habit in _habits)
+            var habits = Habit.GetHabitsOfCheckList(cl.Id);
+            foreach (Habit habit in habits)
             {
-                GroupBox groupBox = new() { Header = _habit.HabitName };
+                GroupBox groupBox = new() { Header = habit.HabitName };
                 StackPanel newStack = new();
+                newStack.Background = new SolidColorBrush(Colors.LightGreen);
 
-                TextBlock tb = new() { Text = _habit.HabitName };
+                TextBlock tb = new() { Text = habit.HabitName };
+                tb.HorizontalAlignment = HorizontalAlignment.Center;
                 newStack.Children.Add(tb);
 
-                var _execution = HabitPerformance.GetExecution(_habit.Id);
-                TextBlock num = new() { Text = _execution.NumOfExecs + "/" + _execution.ExecProperty };
+                var execution = HabitPerformance.GetExecution(habit.Id);
+                TextBlock num = new() { Text = execution.NumOfExecs + "/" + execution.ExecProperty };
+                num.HorizontalAlignment = HorizontalAlignment.Center;
                 newStack.Children.Add(num);
 
-                Button button = new() { Content = "Выполнить"};
-                button.Click += Button_Click;
-                newStack.Children.Add(button);
-
                 groupBox.Content = newStack;
+                groupBox.MouseDoubleClick += Button_Click;
+                MainStack.Children.Add(groupBox);
             }
         }
 
@@ -57,17 +45,21 @@ namespace GreenLife
 
         #region [Buttons]
 
-        private void ReturnBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //redirect to main
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Вы уверены, что хотите отметить привычку?", "Подтверждение", MessageBoxButton.YesNo,MessageBoxImage.Question) ;
-           // if (MessageBoxResult.Yes)
-           //TODO: If result of the message box is "yes"
-           //NewExecution()
+            GroupBox selected = (GroupBox)sender;
+            using (ApplicationContext db = new())
+            {
+                string hName = selected.Header.ToString();
+                var habit = db.Habit.Where(p => p.HabitName == hName).First();
+                MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите отметить привычку?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    HabitPerformance.NewExecution(habit.Id);
+                    string phrase = "Вы отметили привычку " + hName;
+                    MessageBox.Show(phrase, "Отметка", MessageBoxButton.OK);
+                }
+            }
         }
 
         #endregion

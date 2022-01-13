@@ -1,27 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenLifeLib
 {
     public class UserAnswer
     {
+        #region [Props]
+
         public int Id { get; set; }
+
+        #endregion
+
+        #region [Rels]
 
         public Question Question { get; set; }
         public Answer Answer { get; set; }
         public int AccountId { get; set; }
         public Account Account { get; set; }
 
+        #endregion
+
+        #region [Methods]
+
         public static List<UserAnswer> GetUserAnswers(int id)
         {
             using (ApplicationContext db = new())
             {
-                var _answers = db.UserAnswer.Include(p => p.Account).Where(p => p.AccountId == id).ToList();
-                return _answers;
+                var answers = db.UserAnswer.Include(p => p.Account).Where(p => p.AccountId == id).ToList();
+                return answers;
             }
         }
 
@@ -33,5 +40,7 @@ namespace GreenLifeLib
                 db.SaveChanges();
             }
         }
+
+        #endregion
     }
 }

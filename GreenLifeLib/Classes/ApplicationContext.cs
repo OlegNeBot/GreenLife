@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenLifeLib
 {
@@ -22,7 +17,6 @@ namespace GreenLifeLib
 
         #region [DbSets]
         public virtual DbSet<Account> Account { get; set; }
-        public virtual DbSet<Advice> Advice { get; set; }
         public virtual DbSet<Answer> Answer { get; set; }
         public virtual DbSet<CheckList> CheckList { get; set; }
         public virtual DbSet<CheckListHabits> CheckListHabits { get; set; }
@@ -35,9 +29,7 @@ namespace GreenLifeLib
         public virtual DbSet<HabitPhrase> HabitPhrase { get; set; }
         public virtual DbSet<HabitType> HabitType { get; set; }
         public virtual DbSet<Memo> Memo { get; set; }
-        public virtual DbSet<PageAdvice> PageAdvice { get; set;}
         public virtual DbSet<PagePhrase> PagePhrase { get; set; }
-        public virtual DbSet<Phrase> Phrase { get; set; }
         public virtual DbSet<Planet> Planet { get; set; }
         public virtual DbSet<PlanetColors> PlanetColors { get; set; }
         public virtual DbSet<Element> PlanetElement { get; set; }
@@ -47,6 +39,8 @@ namespace GreenLifeLib
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserAnswer> UserAnswer { get; set; }
         #endregion
+
+        #region [Config]
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -62,60 +56,52 @@ namespace GreenLifeLib
             }
         }
 
+        #endregion
+
+        #region [DbCreating]
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>(entity =>
-                {
-                    entity.HasKey(e => e.Id)
-                    .HasName("account_pk");
-
-                    entity.ToTable("account");
-
-                    entity.Property(e => e.Login)
-                    .IsRequired()
-                    .HasColumnName("login");
-
-                    entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasColumnType("varchar(64)")
-                    .HasColumnName("password");
-
-                    entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name");
-
-                    entity.Property(e => e.FamilyName)
-                    .IsRequired()
-                    .HasColumnName("familyname");
-
-                    //TODO: Add DataType "sex" to DB
-                    entity.Property(e => e.UserSex)
-                    .IsRequired()
-                    .HasColumnType("text")
-                    .HasColumnName("sex");
-
-                    entity.Property(e => e.DateOfBirth)
-                    .IsRequired()
-                    .HasColumnType("date")
-                    .HasColumnName("date_of_birth");
-
-                    entity.Property(e => e.RegDate)
-                    .IsRequired()
-                    .HasColumnType("timestamptz")
-                    .HasColumnName("reg_date");
-                });
-
-            modelBuilder.Entity<Advice>(entity =>
             {
                 entity.HasKey(e => e.Id)
-                .HasName("advice_pk");
+                .HasName("account_pk");
 
-                entity.ToTable("advice");
+                entity.ToTable("account");
 
-                entity.Property(e => e.AdviceText)
+                entity.Property(e => e.Login)
                 .IsRequired()
-                .HasColumnName("advice_text");
-            });
+                .HasColumnName("login");
+
+                entity.Property(e => e.Password)
+                .IsRequired()
+                .HasColumnType("varchar(64)")
+                .HasColumnName("password");
+
+                entity.Property(e => e.Name)
+                .IsRequired()
+                .HasColumnName("name");
+
+                entity.Property(e => e.FamilyName)
+                .IsRequired()
+                .HasColumnName("familyname");
+
+                //TODO: Add DataType "sex" to DB
+                entity.Property(e => e.UserSex)
+                .IsRequired()
+                .HasColumnType("text")
+                .HasColumnName("sex");
+
+                entity.Property(e => e.DateOfBirth)
+                .IsRequired()
+                .HasColumnType("date")
+                .HasColumnName("date_of_birth");
+
+                entity.Property(e => e.RegDate)
+                .IsRequired()
+                .HasColumnType("timestamptz")
+                .HasColumnName("reg_date");
+            }); 
 
             modelBuilder.Entity<Answer>(entity =>
             {
@@ -148,7 +134,7 @@ namespace GreenLifeLib
                 .IsRequired()
                 .HasColumnName("checklist_name");
 
-                entity.HasOne(d => d.User)
+                entity.HasOne(d => d.Account)
                 .WithMany(p => p.CheckList);
             });
 
@@ -166,7 +152,7 @@ namespace GreenLifeLib
 
                 entity.HasOne(d => d.CheckList)
                 .WithOne(p => p.CheckListMark)
-                .HasForeignKey<CheckList>(d => d.Id)
+                .HasForeignKey<CheckListMark>(d => d.CheckListId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("chm_ch_fk");
             });
@@ -232,7 +218,12 @@ namespace GreenLifeLib
                 .HasColumnType("timestamptz")
                 .HasColumnName("date_of_exec");
 
-                entity.HasOne(p => p.User)
+                entity.Property(e => e.Executed)
+                .IsRequired()
+                .HasColumnName("executed")
+                .HasDefaultValue(false);
+
+                entity.HasOne(p => p.Account)
                 .WithMany(d => d.HabitPerformance);
             });
 
@@ -262,18 +253,6 @@ namespace GreenLifeLib
                 entity.Property(e => e.MemoRef)
                 .IsRequired()
                 .HasColumnName("memo_ref");
-            });
-
-            modelBuilder.Entity<Phrase>(entity =>
-            {
-                entity.HasKey(e => e.Id)
-                .HasName("phrase_pk");
-
-                entity.ToTable("phrase");
-
-                entity.Property(e => e.PhraseText)
-                .IsRequired()
-                .HasColumnName("phrase_text");
             });
 
             modelBuilder.Entity<Planet>(entity =>
@@ -337,7 +316,7 @@ namespace GreenLifeLib
 
                 entity.HasOne(d => d.Planet)
                 .WithOne(p => p.StartPage)
-                .HasForeignKey<Planet>(d => d.Id)
+                .HasForeignKey<StartPage>(d => d.PlanetId)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("start_plan_fk");
             });
@@ -347,7 +326,7 @@ namespace GreenLifeLib
                 entity.HasKey(e => e.Id)
                 .HasName("usr_pk");
 
-                entity.ToTable("user");
+                entity.ToTable("usr");
 
                 entity.Property(e => e.ScoreSum)
                 .IsRequired()
@@ -356,7 +335,7 @@ namespace GreenLifeLib
 
                 entity.HasOne(d => d.StartPage)
                 .WithOne(p => p.User)
-                .HasForeignKey<StartPage>(d => d.Id)
+                .HasForeignKey<User>(d => d.StartPageId)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("us_start_fk");
 
@@ -365,7 +344,7 @@ namespace GreenLifeLib
 
                 entity.HasOne(d => d.Account)
                     .WithOne(p => p.User)
-                    .HasForeignKey<Account>(d => d.Id)
+                    .HasForeignKey<User>(d => d.AccountId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("usr_acc_fk");
             });
@@ -388,22 +367,6 @@ namespace GreenLifeLib
             });
 
             //New tables added
-            modelBuilder.Entity<PageAdvice>(entity =>
-            {
-                entity.HasKey(e => e.Id)
-                .HasName("p_adv_pk");
-
-                entity.ToTable("page_advice");
-
-                entity.HasOne(p => p.StartPage)
-                .WithOne(d => d.PageAdvice)
-                .HasForeignKey<StartPage>(d => d.Id)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("padv_stpa_fk");
-
-                entity.HasMany(p => p.Advice)
-                .WithMany(d => d.PageAdvice);
-            });
 
             modelBuilder.Entity<PagePhrase>(entity =>
             {
@@ -414,7 +377,7 @@ namespace GreenLifeLib
 
                 entity.HasOne(p => p.StartPage)
                 .WithOne(d => d.PagePhrase)
-                .HasForeignKey<StartPage>(d => d.Id)
+                .HasForeignKey<PagePhrase>(d => d.StartPageId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("paph_stpa_fk");
 
@@ -431,7 +394,7 @@ namespace GreenLifeLib
 
                 entity.HasOne(p => p.Planet)
                 .WithOne(d => d.PlanetColors)
-                .HasForeignKey<Planet>(d => d.Id)
+                .HasForeignKey<PlanetColors>(d => d.PlanetId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("plcol_col_fk");
 
@@ -448,7 +411,7 @@ namespace GreenLifeLib
 
                 entity.HasOne(p => p.Planet)
                 .WithOne(d => d.PlanetElement)
-                .HasForeignKey<Planet>(d => d.Id)
+                .HasForeignKey<PlanetElement>(d => d.PlanetId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("plel_el_fk");
 
@@ -463,14 +426,16 @@ namespace GreenLifeLib
 
                 entity.ToTable("habit_phrase");
 
+                entity.Property(e => e.PhraseText)
+                .IsRequired()
+                .HasColumnName("phrase_text");
+
                 entity.HasOne(p => p.Habit)
                 .WithOne(d => d.HabitPhrase)
-                .HasForeignKey<Habit>(d => d.Id)
+                .HasForeignKey<HabitPhrase>(d => d.HabitId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("haph_ha_fk");
-
-                entity.HasMany(p => p.Phrase)
-                .WithMany(d => d.HabitPhrase);
+;
             });
 
             modelBuilder.Entity<CheckListHabits>(entity =>
@@ -482,7 +447,7 @@ namespace GreenLifeLib
 
                 entity.HasOne(p => p.CheckList)
                 .WithOne(d => d.CheckListHabits)
-                .HasForeignKey<CheckList>(d => d.Id)
+                .HasForeignKey<CheckListHabits>(d => d.CheckListId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("chlha_chl_fk");
 
@@ -491,6 +456,8 @@ namespace GreenLifeLib
             });
 
         }
-        
+
+        #endregion
+
     }
 }

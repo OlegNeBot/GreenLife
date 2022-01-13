@@ -8,9 +8,9 @@
       MinHeight="500" MaxHeight="500" MinWidth="400" MaxWidth="400"
         Title="Памятки" Height="500" Width="400">
 
-    <Grid>
+    <Grid Background="AntiqueWhite">
         <ScrollViewer>
-            <StackPanel x:Name="MainStack">
+            <StackPanel x:Name="MainStack" Background="AntiqueWhite">
                 
             </StackPanel>
         </ScrollViewer>

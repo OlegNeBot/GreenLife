@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using GreenLifeLib;
 
 namespace GreenLife
@@ -24,22 +14,26 @@ namespace GreenLife
         #region [Fields]
 
         private readonly Button _btn;
+        private readonly MainWindow _mw;
 
         #endregion
 
         #region [Constructors]
 
-        public MemoPage(Button btn)
+        public MemoPage(Button btn, MainWindow mw)
         {
             InitializeComponent();
 
             _btn = btn;
+            _mw = mw;
             Unloaded += MemoPage_Unloaded;
 
-            var _memos = Memo.GetMemos();
-            foreach (Memo _memo in _memos)
+            var memos = Memo.GetMemos();
+            foreach (Memo memo in memos)
             {
-                Button button = new() { Content = _memo.MemoName};
+                Button button = new() { Content = memo.MemoName};
+                button.Background = new SolidColorBrush(Colors.LightGreen);
+                button.Width = 190;
                 button.Click += Button_Click;
                 MainStack.Children.Add(button);
             }
@@ -50,8 +44,13 @@ namespace GreenLife
         #region [Buttons]
 
         private void Button_Click(object sender, RoutedEventArgs e)
-        { 
-            //TODO: Open a png-image with it
+        {
+            Button button = (Button)sender;
+            using (ApplicationContext db = new())
+            {
+                var memo = db.Memo.Where(p => p.MemoName.Equals(button.Content.ToString())).First();
+                _mw.PagesShow.Navigate(new ImagePage(memo, _mw));
+            }
         }
 
         #endregion

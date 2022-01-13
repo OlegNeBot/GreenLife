@@ -1,26 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenLifeLib
 {
     public class Color
     {
+        #region [Props]
+
         public int Id { get; set; }
         public string ColorName { get; set; }
 
+        #endregion
+
+        #region [Rels]
+
         public int PlanetId { get; set; }
         public List<PlanetColors> PlanetColors { get; set; }
+
+        #endregion
+
+        #region [Methods]
 
         public static List<Color> GetColors()
         {
             using (ApplicationContext db = new())
             {
-                var _colors = db.Color.ToList();
-                return _colors;
+                var colors = db.Color.ToList();
+                return colors;
             }
         }
+
+        #endregion
     }
 }

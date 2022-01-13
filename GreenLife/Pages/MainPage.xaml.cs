@@ -22,14 +22,18 @@ namespace GreenLife
     /// </summary>
     public partial class MainPage : Page
     {
+        #region [Fields]
+
         private readonly Button _btn = null;
+
+        #endregion
 
         #region [Constructors]
 
         public MainPage(Button btn)
         {
             InitializeComponent();
-            //DayPhraseBlock.Text = DayPhrase.GetRandomPhrase();
+            DayPhraseBlock.Text = DayPhrase.GetRandomPhrase();
             _btn = btn;
             Unloaded += MainPage_Unloaded;
         }
@@ -40,16 +44,21 @@ namespace GreenLife
 
             _btn = btn;
             Unloaded += MainPage_Unloaded;
-            //TODO: add randomisation
-            //DayPhraseBlock.Text = DayPhrase.GetRandomPhrase();
+            DayPhraseBlock.Text = DayPhrase.GetRandomPhrase();
+
+            //TODO: Do in MainPage a colors and elems showing
             //MainColorBlock.Text += PlanetColors.GetColorsByPlanet(account.Id);
         }
 
         #endregion
 
+        #region [Events]
+
         private void MainPage_Unloaded(object sender, RoutedEventArgs e)
         {
             _btn.IsEnabled = true;
         }
+
+        #endregion
     }
 }

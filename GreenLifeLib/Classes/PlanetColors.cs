@@ -1,26 +1,36 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenLifeLib
 {
     public class PlanetColors
     {
+        #region [Props]
+
         public int Id { get; set; }
 
+        #endregion
+
+        #region [Rels]
+
         public List<Color> Color { get; set; }
+        public int PlanetId { get; set; }
         public Planet Planet { get; set; }
+
+        #endregion
+
+        #region [Methods]
 
         public static List<Color> GetColorsByPlanet(int id)
         {
             using (ApplicationContext db = new())
             {
-                var _colors = db.Color.Include(p => p.PlanetColors).Where(p => p.PlanetId == id).ToList();
-                return _colors;
+                var colors = db.Color.Include(p => p.PlanetColors).Where(p => p.PlanetId == id).ToList();
+                return colors;
             }
         }
+
+        #endregion
     }
 }

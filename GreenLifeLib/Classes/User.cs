@@ -1,21 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GreenLifeLib
 {
     public class User
     {
+        #region [Props]
+
         public int Id { get; set; }
         public int ScoreSum { get; set; }
 
-        public StartPage StartPage;
+        #endregion
+
+        #region [Rels]
+
+        public int StartPageId { get; set; }
+        public StartPage StartPage { get; set; }
+        public int AccountId { get; set; }
         public Account Account { get; set; }
-        public List<CheckList> CheckList { get; set; }
         public Role Role { get; set; }
-        public List<HabitPerformance> HabitPerformance { get; set; }
+
+        #endregion
+
+        #region [Methods]
 
         public void UserStats() 
         { 
@@ -26,5 +32,7 @@ namespace GreenLifeLib
         { 
             //TODO: Clear that file and add new info
         }
+
+        #endregion
     }
 }
