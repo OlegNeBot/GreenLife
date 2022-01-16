@@ -13,11 +13,11 @@ namespace GreenLifeLib
 
         #region [Rels]
 
-        public int PlanetId {get;set;}
+        public int PlanetId { get; set; }
         public Planet Planet { get; set; }
+
         public int UserId { get; set; }
         public User User { get; set; }
-        public PagePhrase PagePhrase { get; set; }
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace GreenLifeLib
         {
             using (ApplicationContext db = new())
             {
-                var page = db.StartPage.Include(p => p.User).Where(p => p.UserId == id).First();
+                var page = db.StartPage.Where(p => p.User.Id == id).First();
                 return page;
             }
         }

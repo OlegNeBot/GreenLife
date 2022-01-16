@@ -30,8 +30,9 @@ namespace GreenLife
 
         #region [Constructors]
 
-        public MainPage(Button btn)
+        public MainPage(Button btn, int userId)
         {
+            //UserId is for the elements
             InitializeComponent();
             DayPhraseBlock.Text = DayPhrase.GetRandomPhrase();
             _btn = btn;

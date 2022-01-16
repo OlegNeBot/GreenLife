@@ -3,31 +3,43 @@ using System.Linq;
 
 namespace GreenLifeLib
 {
-    public class Color
+    public class Color : PlanetParts
     {
+        #region [Fields]
+
+        private List<Color> Colors;
+
+        #endregion
+
         #region [Props]
 
-        public int Id { get; set; }
-        public string ColorName { get; set; }
+        public override int Id { get; set; }
+        public override string Name { get; set; }
+        public override string Content { get; set; }
 
         #endregion
 
         #region [Rels]
 
-        public int PlanetId { get; set; }
         public List<PlanetColors> PlanetColors { get; set; }
 
         #endregion
 
         #region [Methods]
 
-        public static List<Color> GetColors()
+        internal override void GetAll()
         {
             using (ApplicationContext db = new())
             {
-                var colors = db.Color.ToList();
-                return colors;
+                Colors = db.Color.ToList();
             }
+        }
+
+        public static List<Color> GetColors()
+        {
+            Color clr = new();
+            clr.GetAll();
+            return clr.Colors;
         }
 
         #endregion

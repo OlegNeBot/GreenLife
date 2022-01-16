@@ -15,7 +15,6 @@ namespace GreenLifeLib
 
         #region [Rels]
 
-        public int QuestionId { get; set; }
         public Question Question { get; set; }
         public List<UserAnswer> UserAnswer { get; set; }
 
@@ -27,7 +26,7 @@ namespace GreenLifeLib
         {
             using (ApplicationContext db = new())
             {
-                var answers = db.Answer.Include(p => p.Question).Where(p => p.QuestionId == id).ToList();
+                var answers = db.Answer.Include(p => p.Question).Where(p => p.Question.Id == id).ToList();
                 return answers;
             }
         }

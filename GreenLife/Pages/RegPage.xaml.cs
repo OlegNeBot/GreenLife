@@ -20,6 +20,7 @@ namespace GreenLife
         private string _password;
         private string _confPass;
         private DateTime _regDate;
+        private int _userId;
 
         private LoginWindow _lw;
 
@@ -27,11 +28,12 @@ namespace GreenLife
 
         #region [Constructors]
 
-        public RegPage(LoginWindow lw)
+        public RegPage(LoginWindow lw, int userId)
         {
             InitializeComponent();
 
             _lw = lw;
+            _userId = userId;
         }
 
         #endregion
@@ -60,7 +62,7 @@ namespace GreenLife
 
             _regDate = DateTime.Now;
 
-            Account account = new(_login, _password, _name, _fname, _sex, _dOB, _regDate);
+            Account account = new(_login, _password, _name, _fname, _sex, _dOB, _regDate, _userId);
             Account.AddAccount(account);
 
             MainWindow mainWindow = new(account);

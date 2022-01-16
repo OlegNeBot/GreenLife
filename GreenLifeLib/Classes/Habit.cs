@@ -11,41 +11,38 @@ namespace GreenLifeLib
         public int Id { get; set; }
         public int Score { get; set; }
         public string HabitName { get; set; }
+        public int NumsNeeded { get; set; }
+        public string ExecProperty { get; set; }
 
         #endregion
 
         #region [Rels]
         
         public HabitPhrase HabitPhrase { get; set; }
-        public int TypeId { get; set; }
-        public HabitType HabitType { get; set; }
-        public int CheckListId { get; set; }
+
+        public Type Type { get; set; }
+
         public List<CheckListHabits> CheckListHabits { get; set; }
+
         public List<HabitPerformance> HabitPerformance { get; set; }
 
         #endregion
 
         #region [Methods]
-
         public static List<Habit> GetHabitsOfCheckList(int id)
         {
             using (ApplicationContext db = new())
             {
-
-                var allHabits = db.Habit.Where(p => p.CheckListId == id).ToList();
-                //var allHabits = db.Habit.ToList();
-
-                List<Habit> habits = new();
-                foreach (Habit h in allHabits)
+                var allRels = db.CheckListHabits.Where(p => p.CheckListId == id).ToList();
+                List<Habit> Habits = new();
+                foreach (CheckListHabits rel in allRels)
                 {
-                    var perf = db.HabitPerformance.Include(p => p.Habit).Where(p => p.HabitId == h.Id).First();
-                    if (!perf.Executed)
-                        habits.Add(h);
+                    var habit = db.Habit.Where(p => p.Id == rel.HabitId).First();
+                    Habits.Add(habit);
                 } 
-                return habits; 
-                //return allHabits;
+                return Habits; 
             }
-        }
+        } 
 
         #endregion
     }

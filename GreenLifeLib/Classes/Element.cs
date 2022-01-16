@@ -3,32 +3,41 @@ using System.Linq;
 
 namespace GreenLifeLib
 {
-    public class Element
+    public class Element : PlanetParts
     {
+        #region [Fields]
+        private List<Element> Elements;
+        #endregion
+
         #region [Props]
 
-        public int Id { get; set; }
-        public string ElemDescription { get; set; }
-        public string ElemRef { get; set; }
+        public override int Id { get; set; }
+        public override string Name { get; set; }
+        public override string Content { get; set; }
 
         #endregion
 
         #region [Rels]
 
-        public int PlanetId { get; set; }
         public List<PlanetElement> PlanetElement { get; set; }
 
         #endregion
 
         #region [Methods]
 
-        public static List<Element> GetElements()
+        internal override void GetAll()
         {
             using (ApplicationContext db = new())
             {
-                var elements = db.Element.ToList();
-                return elements;
+                Elements = db.Element.ToList();
             }
+        }
+
+        public static List<Element> GetElements()
+        {
+            Element elm = new();
+            elm.GetAll();
+            return elm.Elements;
         }
 
         #endregion

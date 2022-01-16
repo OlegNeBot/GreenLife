@@ -13,7 +13,7 @@ namespace GreenLifeLib
         public string Login { get; private set; }
 
         private string _password = null;
-        public string Password 
+        public string Password
         {
             get { return _password; }
             private set { _password = ToHash(value); }
@@ -29,15 +29,15 @@ namespace GreenLifeLib
         public Sex UserSex { get; private set; }
         public DateTime DateOfBirth { get; private set; }
         public DateTime RegDate { get; private set; }
+        public int ScoreSum { get; set; }
 
         #endregion
 
         #region [Rels]
 
+        public int UserId {get;set;}
         public User User { get; set; }
         public List<UserAnswer> UserAnswer { get; set; }
-        public List<CheckList> CheckList { get; set; }
-        public List<HabitPerformance> HabitPerformance { get; set; }
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace GreenLifeLib
         
         }
 
-        public Account(string login, string password, string name, string fname, string sex, DateTime? dOB, DateTime reg) 
+        public Account(string login, string password, string name, string fname, string sex, DateTime? dOB, DateTime reg, int userId) 
         {
             Login = login;
             Password = password;
@@ -57,6 +57,8 @@ namespace GreenLifeLib
             UserSex = ToSex(sex);
             DateOfBirth = (DateTime)dOB;
             RegDate = reg;
+            ScoreSum = 0;
+            UserId = userId;
         }
 
         #endregion

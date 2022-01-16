@@ -25,6 +25,7 @@ namespace GreenLife
 
         private readonly Account _account = null;
         private Page _page;
+        private int _userId;
 
         #endregion
 
@@ -40,11 +41,13 @@ namespace GreenLife
             MainBtn.IsEnabled = false;
         }
 
-        public MainWindow() 
+        public MainWindow(int userId) 
         {
             InitializeComponent();
 
-            PagesShow.Navigate(new MainPage(MainBtn));
+            _userId = userId;
+
+            PagesShow.Navigate(new MainPage(MainBtn, _userId));
             MainBtn.IsEnabled = false;
 
         }
@@ -62,6 +65,8 @@ namespace GreenLife
             }
             else
             {
+                //TODO: Сделать чеклисты доступными для всех
+                
                 MessageBox.Show("Чтобы отмечать привычки, нужно зарегистрироваться!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
@@ -86,7 +91,7 @@ namespace GreenLife
             }
             else
             {
-                _page = new MainPage(MainBtn);
+                _page = new MainPage(MainBtn, _userId);
                 RedirectTo(_page, MainBtn);
             }
         }

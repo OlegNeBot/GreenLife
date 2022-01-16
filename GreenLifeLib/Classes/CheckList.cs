@@ -15,10 +15,11 @@ namespace GreenLifeLib
 
         #region [Rels]
 
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
-        public CheckListMark CheckListMark { get;set; }
+        public Type Type { get; set; }
+
         public CheckListHabits CheckListHabits { get; set; }
+        
+        public CheckListUser CheckListUser { get; set; }
 
         #endregion
 
@@ -28,16 +29,7 @@ namespace GreenLifeLib
         {
             using (ApplicationContext db = new())
             {
-                var checkLists = db.CheckList.Where(p => p.AccountId == id).ToList();
-                return checkLists;
-            }
-        }
-
-        public static List<CheckList> GetCheckLists()
-        {
-            using (ApplicationContext db = new())
-            {
-                var checkLists = db.CheckList.Where(p => p.Id == 1 || p.Id == 2).ToList();
+                var checkLists = db.CheckList.Where(p => p.CheckListUser.UserId == id).ToList();
                 return checkLists;
             }
         }

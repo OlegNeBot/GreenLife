@@ -13,12 +13,6 @@ namespace GreenLifeLib
 
         #endregion
 
-        #region [Rels]
-
-        public List<PagePhrase> PagePhrase { get; set; }
-
-        #endregion
-
         #region [Methods]
 
         public static string GetRandomPhrase()

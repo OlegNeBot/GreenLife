@@ -13,10 +13,18 @@ namespace GreenLife
     /// </summary>
     public partial class HabitsPage : Page
     {
+        #region [Fields]
+
+        private int _usrId;
+
+        #endregion
+
         #region [Constructors]
 
-        public HabitsPage(CheckList cl)
+        public HabitsPage(CheckList cl, int usrId)
         {
+            _usrId = usrId;
+
             InitializeComponent();
 
             var habits = Habit.GetHabitsOfCheckList(cl.Id);
@@ -30,13 +38,17 @@ namespace GreenLife
                 tb.HorizontalAlignment = HorizontalAlignment.Center;
                 newStack.Children.Add(tb);
 
-                var execution = HabitPerformance.GetExecution(habit.Id);
-                TextBlock num = new() { Text = execution.NumOfExecs + "/" + execution.ExecProperty };
+                var execution = HabitPerformance.GetExecution(habit.Id, _usrId);
+                TextBlock num = new() { Text = execution.NumOfExecs + "/" + habit.NumsNeeded };
+                if (execution.Executed)
+                    newStack.Opacity = 0.25;
+                else
+                    groupBox.MouseDoubleClick += Button_Click;
+
                 num.HorizontalAlignment = HorizontalAlignment.Center;
                 newStack.Children.Add(num);
 
                 groupBox.Content = newStack;
-                groupBox.MouseDoubleClick += Button_Click;
                 MainStack.Children.Add(groupBox);
             }
         }
@@ -55,7 +67,7 @@ namespace GreenLife
                 MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите отметить привычку?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    HabitPerformance.NewExecution(habit.Id);
+                    HabitPerformance.NewExecution(habit.Id, _usrId);
                     string phrase = "Вы отметили привычку " + hName;
                     MessageBox.Show(phrase, "Отметка", MessageBoxButton.OK);
                 }

@@ -3,6 +3,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using GreenLifeLib;
+using System.Text.Json;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace GreenLife
 {
@@ -15,6 +18,7 @@ namespace GreenLife
 
         private Account _account = null;
         private LoginWindow _lw;
+        private Login _login;
 
         #endregion
 
@@ -33,7 +37,7 @@ namespace GreenLife
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string login = LoginTBox.Text;
+            string login = LoginTBox.Text.Trim();
             string pass = PassBox.Password.Trim();
             string password = Account.ToHash(pass);
 
@@ -44,6 +48,12 @@ namespace GreenLife
                     _account = db.Account.Where(p => p.Login == login)
                         .Where(p => p.Password.Equals(password))
                         .First();
+                    _login = new() { Id = _account.UserId };
+                    if ((bool)LoginCheck.IsChecked)
+                        _login.LoginStatus = "Logged";
+                    else 
+                        _login.LoginStatus = "Unlogged";
+                    LoadToFile(_login);
                     MainWindow mainWindow = new(_account);
                     RedirectToMain(mainWindow);
                 }
@@ -57,12 +67,14 @@ namespace GreenLife
 
         private void RegButton_Click(object sender, RoutedEventArgs e)
         {
-            _lw.RegPagesShow.Navigate(new RegPage(_lw));
+            TakeAUser();
+            _lw.RegPagesShow.Navigate(new RegPage(_lw, _login.Id));
         }
 
         private void SimpleButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new();
+            TakeAUser();
+            MainWindow mainWindow = new(_login.Id);
             RedirectToMain(mainWindow); 
         }
 
@@ -74,6 +86,40 @@ namespace GreenLife
         {
             window.Show();
             _lw.Close();
+        }
+
+        public static async void LoadToFile(Login login)
+        {
+            using (FileStream fs = new("login.json", FileMode.Create))
+            {
+                await JsonSerializer.SerializeAsync<Login>(fs, login);
+            }
+        }
+
+        private void TakeAUser()
+        {
+           Task n = Task.Run(async () =>
+           {
+               try
+               {
+                   using (FileStream fs = new("login.json", FileMode.Open))
+                   {
+                       _login = await JsonSerializer.DeserializeAsync<Login>(fs);
+                   }
+               }
+               catch (FileNotFoundException)
+               {
+                   User user = new() { RoleId = 1};
+                   using (ApplicationContext db = new())
+                   {
+                       db.User.Add(user);
+                       db.SaveChanges();
+                   }
+                   _login = new() { Id = user.Id, LoginStatus = "Unlogged" };
+                   LoadToFile(_login);
+               }
+           });
+            n.Wait();
         }
 
         #endregion

@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GreenLifeLib;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GreenLife
 {
@@ -23,12 +15,40 @@ namespace GreenLife
 
         public LoginWindow()
         {
-            //TODO: Сделать возможность сохранения данных пользователя
-            //Если первый раз зашел и файла нет - создать файл либо смотреть по бд (id или что-то такое) + статус "Unlogged"
-            //Если залогинился или зарегался - менять на статус "Logged"
+            CheckIfAuthorised();
+
             InitializeComponent();
 
             RegPagesShow.Navigate(new AuthorisePage(this));
+        }
+
+        #endregion
+
+        #region [Methods]
+
+        private async void CheckIfAuthorised()
+        {
+            try
+            {
+                using (FileStream fs = new("login.json", FileMode.Open))
+                {
+                    Login login = await JsonSerializer.DeserializeAsync<Login>(fs);
+                    if (login.LoginStatus.Equals("Logged"))
+                    {
+                        using (ApplicationContext db = new())
+                        {
+                            var account = db.Account.Where(p => p.User.Id == login.Id).First();
+                            MainWindow mw = new(account);
+                            mw.Show();
+                            Close();
+                        }
+                    }
+                }
+            }
+            catch (FileNotFoundException)
+            {
+
+            }
         }
 
         #endregion

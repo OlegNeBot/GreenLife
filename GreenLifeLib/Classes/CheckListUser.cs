@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GreenLifeLib
 {
-    public class CheckListHabits
+    public class CheckListUser
     {
         #region [Props]
 
@@ -15,10 +19,9 @@ namespace GreenLifeLib
         public int CheckListId { get; set; }
         public CheckList CheckList { get; set; }
 
-        public int HabitId { get; set; }
-        public List<Habit> Habit { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
 
         #endregion
-
     }
 }

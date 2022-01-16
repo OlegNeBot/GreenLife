@@ -16,7 +16,6 @@ namespace GreenLifeLib
 
         public Question Question { get; set; }
         public Answer Answer { get; set; }
-        public int AccountId { get; set; }
         public Account Account { get; set; }
 
         #endregion
@@ -27,7 +26,7 @@ namespace GreenLifeLib
         {
             using (ApplicationContext db = new())
             {
-                var answers = db.UserAnswer.Include(p => p.Account).Where(p => p.AccountId == id).ToList();
+                var answers = db.UserAnswer.Include(p => p.Account).Where(p => p.Account.Id == id).ToList();
                 return answers;
             }
         }

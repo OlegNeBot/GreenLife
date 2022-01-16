@@ -1,4 +1,6 @@
-﻿namespace GreenLifeLib
+﻿using System.Linq;
+
+namespace GreenLifeLib
 {
     public class HabitPhrase
     {
@@ -13,6 +15,19 @@
 
         public int HabitId { get; set; }
         public Habit Habit { get; set; }
+
+        #endregion
+
+        #region [Methods]
+
+        public static HabitPhrase GetHabitPhrase(int id)
+        {
+            using (ApplicationContext db = new())
+            {
+                var phrase = db.HabitPhrase.Where(p => p.Habit.Id == id).First();
+                return phrase;
+            }
+        }
 
         #endregion
     }

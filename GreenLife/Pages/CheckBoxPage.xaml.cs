@@ -15,6 +15,7 @@ namespace GreenLife
 
         private readonly Button _btn;
         private readonly MainWindow _mw;
+        private int _usrId;
 
         #endregion
 
@@ -26,9 +27,10 @@ namespace GreenLife
 
             _btn = btn;
             _mw = mw;
+            _usrId = acc.UserId;
             Unloaded += CheckBoxPage_Unloaded;
 
-            var checkBoxes = CheckList.GetCheckLists();
+            var checkBoxes = CheckList.GetCheckLists(_usrId);
             foreach (CheckList box in checkBoxes)
             {
                 Button b = new() { Content = box.CheckListName};
@@ -38,14 +40,15 @@ namespace GreenLife
             }
         }
 
-        public CheckBoxPage(Button btn, MainWindow mw)
+        public CheckBoxPage(Button btn, MainWindow mw, int usrId)
         {
             InitializeComponent();
 
             _btn = btn;
+            _usrId = usrId;
             Unloaded += CheckBoxPage_Unloaded;
 
-            var checkBoxes = CheckList.GetCheckLists();
+            var checkBoxes = CheckList.GetCheckLists(_usrId);
             foreach (CheckList box in checkBoxes)
             {
                 Button b = new() { Content = box.CheckListName };
@@ -63,20 +66,14 @@ namespace GreenLife
         {
             Button pressed = (Button)sender;
             string content = pressed.Content.ToString();
-            //MessageBox.Show("Эта функция находится в разработке!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Information);
             using (ApplicationContext db = new())
             {
                 var chL = db.CheckList.Where(p => p.CheckListName == content).First();
 
-                _mw.PagesShow.Navigate(new HabitsPage(chL));
+                _mw.PagesShow.Navigate(new HabitsPage(chL, _usrId));
             }
-            //Redirect to Habit page with checklist in constructor
         }
 
-        private void ReturnBtn_Click(object sender, RoutedEventArgs e)
-        { 
-            //Redirect to main
-        }
 
         #endregion
 
