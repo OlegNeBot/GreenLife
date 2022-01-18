@@ -16,7 +16,7 @@ namespace GreenLifeLib
 
         public Account Account { get; set; }
 
-        public List<CheckListUser> CheckListUser { get; set; }
+        public List<CheckList> CheckList { get; set; }
 
         public List<HabitPerformance> HabitPerformance { get; set; }
 

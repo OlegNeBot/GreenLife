@@ -21,7 +21,8 @@ namespace GreenLifeLib
 
         #region [Rels]
 
-        public List<PlanetColors> PlanetColors { get; set; }
+        public int PlanetId { get; set; }
+        public List<Planet> Planet { get; set; }
 
         #endregion
 
@@ -40,6 +41,23 @@ namespace GreenLifeLib
             Color clr = new();
             clr.GetAll();
             return clr.Colors;
+        }
+
+        public static List<Color> GetColorsByPlanet(int id)
+        {
+            using (ApplicationContext db = new())
+            {
+                /* var allRels = db.PlanetColors.Where(p => p.Planet.Id == id).ToList();
+                 List<Color> Colors = new();
+                 foreach (PlanetColors rel in allRels)
+                 {
+                     var color = db.Color.Where(e => e.Id == rel.ColorId).First();
+                     Colors.Add(color);
+                 }
+                 return Colors;*/
+                var colors = db.Color.Where(p => p.PlanetId == id).ToList();
+                return colors;
+            }
         }
 
         #endregion

@@ -7,18 +7,19 @@ namespace GreenLifeLib
     public class ApplicationContext : DbContext
     {
         #region [Constructors]
+
         public ApplicationContext() { }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options) { }
+
         #endregion
 
         #region [DbSets]
+
         public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<Answer> Answer { get; set; }
         public virtual DbSet<CheckList> CheckList { get; set; }
-        public virtual DbSet<CheckListHabits> CheckListHabits { get; set; }
-        public virtual DbSet<CheckListUser> CheckListUser { get; set; }
         public virtual DbSet<Color> Color { get; set; }
         public virtual DbSet<DayPhrase> DayPhrase { get; set; }
         public virtual DbSet<Element> Element { get; set; }
@@ -28,13 +29,12 @@ namespace GreenLifeLib
         public virtual DbSet<Type> HabitType { get; set; }
         public virtual DbSet<Memo> Memo { get; set; }
         public virtual DbSet<Planet> Planet { get; set; }
-        public virtual DbSet<PlanetColors> PlanetColors { get; set; }
-        public virtual DbSet<PlanetElement> PlanetElement { get; set; }
         public virtual DbSet<Question> Question { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<StartPage> StartPage { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserAnswer> UserAnswer { get; set; }
+
         #endregion
 
         #region [Config]
@@ -143,26 +143,12 @@ namespace GreenLifeLib
                 entity.HasOne(d => d.Type)
                 .WithMany(p => p.CheckList);
 
-                //entity.HasOne(d => d.CheckListUser)
-                //.WithMany(p => p.CheckList);
-            }); 
-
-            modelBuilder.Entity<CheckListUser>(entity =>
-            {
-                entity.HasKey(e => e.Id)
-                .HasName("checklist_user_pk");
-
-                entity.ToTable("checklist_user");
+                entity.HasMany(p => p.Habit)
+                .WithMany(d => d.CheckList);
 
                 entity.HasOne(p => p.User)
-                .WithMany(d => d.CheckListUser);
-
-                entity.HasOne(e => e.CheckList)
-                .WithOne(e => e.CheckListUser)
-                .HasForeignKey<CheckListUser>(e => e.CheckListId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("chlu_chl_fk");
-            });
+                .WithMany(d => d.CheckList);
+            }); 
 
             modelBuilder.Entity<Color>(entity =>
             {
@@ -253,7 +239,26 @@ namespace GreenLifeLib
 
                 entity.HasOne(p => p.Habit)
                 .WithMany(d => d.HabitPerformance);
-            }); 
+            });
+
+            modelBuilder.Entity<HabitPhrase>(entity =>
+            {
+                entity.HasKey(e => e.Id)
+                .HasName("habit_phrase_pk");
+
+                entity.ToTable("habit_phrase");
+
+                entity.Property(e => e.PhraseText)
+                .IsRequired()
+                .HasColumnName("phrase_text");
+
+                entity.HasOne(p => p.Habit)
+                .WithOne(d => d.HabitPhrase)
+                .HasForeignKey<HabitPhrase>(d => d.HabitId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("haph_ha_fk");
+                ;
+            });
 
             modelBuilder.Entity<Type>(entity =>
             {
@@ -300,17 +305,11 @@ namespace GreenLifeLib
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("start_plan_fk");
 
-                entity.HasOne(p => p.PlanetColors)
-                .WithOne(d => d.Planet)
-                .HasForeignKey<Planet>(d => d.PlanetColorsId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("plcol_col_fk");
+                entity.HasMany(p => p.Color)
+                .WithMany(d => d.Planet);
 
-                entity.HasOne(p => p.PlanetElement)
-                .WithOne(d => d.Planet)
-                .HasForeignKey<Planet>(d => d.PlanetElementId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("plel_el_fk");
+                entity.HasMany(p => p.Element)
+                .WithMany(d => d.Planet);
             });
 
             modelBuilder.Entity<Element>(entity =>
@@ -360,12 +359,6 @@ namespace GreenLifeLib
 
                 entity.ToTable("start_page");
 
-                /*entity.HasOne(d => d.Planet)
-                .WithOne(p => p.StartPage)
-                .HasForeignKey<StartPage>(d => d.PlanetId)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("start_plan_fk"); */
-
                 entity.HasOne(d => d.User)
                 .WithOne(p => p.StartPage)
                 .HasForeignKey<StartPage>(d => d.UserId)
@@ -401,66 +394,6 @@ namespace GreenLifeLib
                 entity.HasOne(d => d.Account)
                 .WithMany(p => p.UserAnswer);
             });
-
-            //New tables added
-
-            modelBuilder.Entity<PlanetColors>(entity =>
-            {
-                entity.HasKey(e => e.Id)
-                .HasName("planet_colors_pk");
-
-                entity.ToTable("planet_color");
-
-                entity.HasMany(p => p.Color)
-                .WithMany(d => d.PlanetColors);
-            });
-
-            modelBuilder.Entity<PlanetElement>(entity =>
-            {
-                entity.HasKey(e => e.Id)
-                .HasName("planet_elem_pk");
-
-                entity.ToTable("planet_element");
-
-                entity.HasMany(p => p.Element)
-                .WithMany(d => d.PlanetElement);
-            });
-
-            modelBuilder.Entity<HabitPhrase>(entity =>
-            {
-                entity.HasKey(e => e.Id)
-                .HasName("habit_phrase_pk");
-
-                entity.ToTable("habit_phrase");
-
-                entity.Property(e => e.PhraseText)
-                .IsRequired()
-                .HasColumnName("phrase_text");
-
-                entity.HasOne(p => p.Habit)
-                .WithOne(d => d.HabitPhrase)
-                .HasForeignKey<HabitPhrase>(d => d.HabitId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("haph_ha_fk");
-;
-            });
-
-            modelBuilder.Entity<CheckListHabits>(entity =>  
-            {
-                entity.HasKey(e => e.Id)
-                .HasName("checklist_habit_pk");
-
-                entity.ToTable("checklist_habit");
-
-                entity.HasOne(p => p.CheckList)
-                .WithOne(d => d.CheckListHabits)
-                .HasForeignKey<CheckListHabits>(d => d.CheckListId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("chlha_chl_fk");
-
-                entity.HasMany(p => p.Habit)
-                .WithMany(d => d.CheckListHabits);
-            });  
 
         }
 

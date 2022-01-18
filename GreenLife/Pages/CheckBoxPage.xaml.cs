@@ -46,6 +46,7 @@ namespace GreenLife
 
             _btn = btn;
             _usrId = usrId;
+            _mw = mw;
             Unloaded += CheckBoxPage_Unloaded;
 
             var checkBoxes = CheckList.GetCheckLists(_usrId);
@@ -68,8 +69,7 @@ namespace GreenLife
             string content = pressed.Content.ToString();
             using (ApplicationContext db = new())
             {
-                var chL = db.CheckList.Where(p => p.CheckListName == content).First();
-
+                var chL = db.CheckList.Where(p => p.CheckListName == content).Where(p => p.UserId == _usrId).First();
                 _mw.PagesShow.Navigate(new HabitsPage(chL, _usrId));
             }
         }

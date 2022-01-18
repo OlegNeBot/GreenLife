@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace GreenLifeLib
 {
@@ -16,11 +17,9 @@ namespace GreenLifeLib
         public int StartPageId { get; set; }
         public StartPage StartPage { get; set; }
 
-        public int PlanetColorsId { get; set; }
-        public PlanetColors PlanetColors { get; set; }
+        public List<Color> Color { get; set; }
 
-        public int PlanetElementId { get; set; }
-        public PlanetElement PlanetElement { get; set; }
+        public List<Element> Element { get; set; }
 
         #endregion
 

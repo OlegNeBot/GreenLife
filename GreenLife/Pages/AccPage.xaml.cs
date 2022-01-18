@@ -28,6 +28,7 @@ namespace GreenLife
 
             _dOB = acc.DateOfBirth;
 
+            ScoreBlock.Text = "Баллы: " + acc.ScoreSum;
             NameBlock.Text = acc.Name + " " + acc.FamilyName;
             SexBlock.Text = "Пол: " + acc.UserSex;
             DOBBlock.Text = "Дата рождения: \n" + _dOB.ToShortDateString();

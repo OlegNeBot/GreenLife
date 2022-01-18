@@ -20,9 +20,11 @@ namespace GreenLifeLib
         
         public HabitPhrase HabitPhrase { get; set; }
 
+        public int TypeId { get; set; }
         public Type Type { get; set; }
 
-        public List<CheckListHabits> CheckListHabits { get; set; }
+        public int CheckListId { get; set; }
+        public List<CheckList> CheckList { get; set; }
 
         public List<HabitPerformance> HabitPerformance { get; set; }
 
@@ -33,14 +35,13 @@ namespace GreenLifeLib
         {
             using (ApplicationContext db = new())
             {
-                var allRels = db.CheckListHabits.Where(p => p.CheckListId == id).ToList();
-                List<Habit> Habits = new();
-                foreach (CheckListHabits rel in allRels)
+                var chList = db.CheckList.Include(p => p.Habit).Where(p => p.Id == id).First();
+                List<Habit> habits = new();
+                foreach (Habit h in chList.Habit)
                 {
-                    var habit = db.Habit.Where(p => p.Id == rel.HabitId).First();
-                    Habits.Add(habit);
-                } 
-                return Habits; 
+                    habits.Add(h);
+                }
+                return habits;
             }
         } 
 

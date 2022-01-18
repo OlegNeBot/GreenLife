@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -65,7 +67,8 @@ namespace GreenLife
 
         private void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
-                LoginWindow loginWindow = new();
+            FileLogout();
+            LoginWindow loginWindow = new();
                 loginWindow.Show();
                 _mW.Close();
         }
@@ -77,6 +80,28 @@ namespace GreenLife
         private void SettingsPage_Unloaded(object sender, RoutedEventArgs e)
         {
             _btn.IsEnabled = true;
+        }
+
+        private async void FileLogout()
+        {
+            Task n = Task.Run(async () =>
+            {
+                try
+            {
+                using (FileStream fs = new("login.json", FileMode.Open))
+                {
+                    Login login = await JsonSerializer.DeserializeAsync<Login>(fs);
+                        fs.SetLength(0);
+                    login.LoginStatus = "Unlogged";
+                    await JsonSerializer.SerializeAsync<Login>(fs, login);
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                
+            }
+            });
+            n.Wait();
         }
 
         #endregion

@@ -6,7 +6,9 @@ namespace GreenLifeLib
     public class Element : PlanetParts
     {
         #region [Fields]
+
         private List<Element> Elements;
+
         #endregion
 
         #region [Props]
@@ -19,7 +21,8 @@ namespace GreenLifeLib
 
         #region [Rels]
 
-        public List<PlanetElement> PlanetElement { get; set; }
+        public int PlanetId { get; set; }
+        public List<Planet> Planet { get; set; }
 
         #endregion
 
@@ -38,6 +41,15 @@ namespace GreenLifeLib
             Element elm = new();
             elm.GetAll();
             return elm.Elements;
+        }
+
+        public static List<Element> GetElementsByPlanet(int id)
+        {
+            using (ApplicationContext db = new())
+            {
+                var elements = db.Element.Where(p => p.PlanetId == id).ToList();
+                return elements;
+            }
         }
 
         #endregion

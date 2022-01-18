@@ -115,6 +115,27 @@ namespace GreenLife
                        db.User.Add(user);
                        db.SaveChanges();
                    }
+                   for (int i = 0; i < 5; i++)
+                   {
+                       CheckList chL = new();
+                       chL.CheckListName = chL._checklistNames[i];
+                       chL.TypeId = i + 1;
+                       chL.UserId = user.Id;
+
+                       using (ApplicationContext db = new())
+                       {
+                           var habits = db.Habit.Where(p => p.TypeId == chL.TypeId).ToList();
+                           chL.Habit = habits;
+                           db.CheckList.Add(chL);
+                           db.SaveChanges();
+                           foreach (Habit h in habits)
+                           {
+                               HabitPerformance hp = new() { DateOfExec = DateTime.MinValue, HabitId = h.Id, UserId = user.Id};
+                               db.HabitPerformance.Add(hp);
+                               db.SaveChanges();
+                           }
+                       }
+                   }
                    _login = new() { Id = user.Id, LoginStatus = "Unlogged" };
                    LoadToFile(_login);
                }

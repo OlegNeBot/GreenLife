@@ -37,11 +37,11 @@ namespace GreenLife
                 int num = questions.IndexOf(q);
                 QuestionLabel.Content = "Вопрос " + (num + 1);
                 _isntAnswered = true;
-                while (_isntAnswered)
+                var answers = Answer.GetAnswersByQuestion(q.Id).ToList();
+                while (true)
                 {
                     _question = q;
                     QuestionBlock.Text = q.QuestText;
-                    var answers = Answer.GetAnswersByQuestion(q.Id).ToList();
                     foreach (Answer answ in answers)
                     {
                         RadioButton radioButton = new() { IsChecked = false, GroupName = "Answer", Content = answ.AnswerText };
@@ -53,6 +53,9 @@ namespace GreenLife
                     }
                 }
             }
+            MainWindow mainWindow = new(_acc);
+            mainWindow.Show();
+            _lw.Close();
         }
 
 
@@ -70,7 +73,6 @@ namespace GreenLife
             }
                 UserAnswer userAnswer = new() { Question = _question, Answer = _answer, Account = _acc };
                 UserAnswer.AddUserAnswer(userAnswer);
-            _isntAnswered = false;
         }
 
         #endregion

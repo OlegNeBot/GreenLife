@@ -65,9 +65,18 @@ namespace GreenLife
             Account account = new(_login, _password, _name, _fname, _sex, _dOB, _regDate, _userId);
             Account.AddAccount(account);
 
-            MainWindow mainWindow = new(account);
-            mainWindow.Show();
-            _lw.Close();
+           /* MessageBoxResult result = MessageBox.Show("Хотите пройти анкету?", "Анкета", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (result == MessageBoxResult.Yes)
+            {
+                _lw.RegPagesShow.Navigate(new QuestionPage(account, _lw));
+            }
+            else if (result == MessageBoxResult.No)
+            { */
+                MainWindow mainWindow = new(account);
+                mainWindow.Show();
+                _lw.Close();
+            //}
+           
             
         }
 

@@ -17,8 +17,10 @@ namespace GreenLifeLib
 
         #region [Rels]
 
+        public int HabitId { get; set; }
         public Habit Habit { get; set; }
 
+        public int UserId { get; set; }
         public User User { get; set; }
 
         #endregion
@@ -30,27 +32,30 @@ namespace GreenLifeLib
             using (ApplicationContext db = new())
             {
                 var habit = db.Habit.Where(p => p.Id == habitId).First();
-                var account = db.Account.Where(p => p.User.Id == userId).First();
                 var habitPerf = db.HabitPerformance
-                    .Where(p => p.Habit.Id == habit.Id)
-                    .Where(p => p.User.Id == userId)
-                    .First();
-                if (!habitPerf.Executed)
-                {
-                    if ((DateTime.Now - Convert.ToDateTime(habitPerf)).TotalHours > 24)
+                        .Where(p => p.HabitId == habit.Id)
+                        .Where(p => p.UserId == userId)
+                        .First();
+
+                    if (!habitPerf.Executed)
                     {
-                        habitPerf.NumOfExecs++;
-                        habitPerf.DateOfExec = DateTime.Now;
-                        if (habitPerf.NumOfExecs == habit.NumsNeeded)
-                        {
-                            habitPerf.Executed = true;
-                            account.ScoreSum += habit.Score;
-                        }
-                        db.HabitPerformance.Update(habitPerf);
-                        db.Account.Update(account);
-                        db.SaveChanges();
+                            habitPerf.NumOfExecs++;
+                            habitPerf.DateOfExec = DateTime.Now;
+                            if (habitPerf.NumOfExecs == habit.NumsNeeded)
+                            {
+                                habitPerf.Executed = true;
+                                try
+                                {
+                                    var account = db.Account.Where(p => p.UserId == userId).First();
+                                    account.ScoreSum += habit.Score;
+                                    db.Account.Update(account);
+                                }
+                                catch (InvalidOperationException)
+                                { }
+                            }
+                            db.HabitPerformance.Update(habitPerf);
+                            db.SaveChanges();
                     }
-                }
             }
         }
 

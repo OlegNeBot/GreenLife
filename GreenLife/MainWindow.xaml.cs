@@ -5,13 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using GreenLifeLib;
 
 namespace GreenLife
@@ -65,9 +58,8 @@ namespace GreenLife
             }
             else
             {
-                //TODO: Сделать чеклисты доступными для всех
-                
-                MessageBox.Show("Чтобы отмечать привычки, нужно зарегистрироваться!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                _page = new CheckBoxPage(CheckListBtn, this, _userId);
+                RedirectTo(_page, CheckListBtn);
             }
         }
 

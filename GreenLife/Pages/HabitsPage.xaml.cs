@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using GreenLifeLib;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenLife
 {
@@ -34,9 +34,13 @@ namespace GreenLife
                 StackPanel newStack = new();
                 newStack.Background = new SolidColorBrush(Colors.LightGreen);
 
-                TextBlock tb = new() { Text = habit.HabitName };
+                TextBlock tb = new() { Text = "Баллов: " + habit.Score };
                 tb.HorizontalAlignment = HorizontalAlignment.Center;
                 newStack.Children.Add(tb);
+
+                TextBlock execBlock = new() { Text = habit.ExecProperty };
+                execBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                newStack.Children.Add(execBlock);
 
                 var execution = HabitPerformance.GetExecution(habit.Id, _usrId);
                 TextBlock num = new() { Text = execution.NumOfExecs + "/" + habit.NumsNeeded };
@@ -63,13 +67,22 @@ namespace GreenLife
             using (ApplicationContext db = new())
             {
                 string hName = selected.Header.ToString();
-                var habit = db.Habit.Where(p => p.HabitName == hName).First();
+                var habit = db.Habit.Include(p => p.HabitPhrase).Where(p => p.HabitName == hName).First();
                 MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите отметить привычку?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    HabitPerformance.NewExecution(habit.Id, _usrId);
-                    string phrase = "Вы отметили привычку " + hName;
-                    MessageBox.Show(phrase, "Отметка", MessageBoxButton.OK);
+                    HabitPerformance hp = db.HabitPerformance.Where(p => p.UserId == _usrId).Where(p => p.HabitId == habit.Id).First();
+                    MessageBox.Show($"{(DateTime.Now - Convert.ToDateTime(hp.DateOfExec)).TotalHours}");
+                    if ((DateTime.Now - Convert.ToDateTime(hp.DateOfExec)).TotalHours > 24)
+                    {
+                        HabitPerformance.NewExecution(habit.Id, _usrId);
+                        string phrase = habit.HabitPhrase.PhraseText;
+                        MessageBox.Show(phrase, "Отметка", MessageBoxButton.OK);
+                    }
+                    else 
+                    {
+                        MessageBox.Show("С момента предыдущего выполнения еще не прошло 24 часа!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }

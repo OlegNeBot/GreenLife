@@ -26,13 +26,14 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Image Source="pageimgs/user.jpg" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="3" Margin="10"/>
+        <Image Source="pageimgs/user.jpg" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="3" Margin="10, 10, 10, 50"/>
+        <TextBlock x:Name="ScoreBlock" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Margin="35, 25, 10, 10" FontFamily="Arial Bold" FontSize="20"/>
         <TextBlock x:Name="NameBlock" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="5" FontSize="20" FontFamily="Arial Bold"
        Margin="0, 15 ,5,0" Padding="0 0 0 30"></TextBlock>
         <TextBlock x:Name="SexBlock" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" FontSize="20" FontFamily="Arial Bold"
-       Margin="0, 0 , 5,0" Padding="0 0 0 30"></TextBlock>
+       Margin="0, -7 , 5,0" Padding="0 0 0 30"></TextBlock>
         <TextBlock x:Name="DOBBlock" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="5" FontSize="20" FontFamily="Arial Bold"
-       Margin="0, 0 ,5,0" Padding="0 0 0 30"></TextBlock>
+       Margin="0, -30 ,5,0" Padding="0 0 0 30"></TextBlock>
         <Image Source="pageimgs/sn.jpg" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3" Grid.RowSpan="5" 
                Margin="10, 15, 10, 100"/>
     </Grid>
